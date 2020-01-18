@@ -3,5 +3,6 @@ asar/
 compiled/
 .idea/
 unifiedPatchingFramework/
+dist/
 *.zip
 log.txt
