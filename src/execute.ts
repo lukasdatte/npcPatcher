@@ -128,14 +128,6 @@ function execute() {
         return getModTypeFromString(storedModType, true);
     }
 
-
-    function isEditingNpcLooks(record: XelibRecord) {
-        const obj = xelib.ElementToObject(record);
-        const npcElementValues = npcElements.map(element => obj[element]);
-        const npcElementValues2 = npcElements.map(element => xelib.GetValue(record, element + "\\"));
-        return true;
-    }
-
     function enhanceModRecordPairs(mods: ModRecordPair[], settings: Settings) {
         for (let i = 0; i < mods.length; i++) {
             let modRecord = mods[i];
@@ -149,21 +141,6 @@ function execute() {
 
     function areLooksOfModsIdentical(mod1: ModRecordEnhanced, mod2: ModRecordEnhanced) {
         return npcElements.every(elementPath => areElementsIdentical(mod1.object[elementPath], mod2.object[elementPath]));
-    }
-
-    function getLastNPCLookChangingMod2(mods: ModRecordEnhanced[]): ModRecordEnhanced | undefined {
-
-        if (mods.length < 2)
-            throw "Mod count Should't be smaller than 2";
-
-        let lastNpcChangingMod: ModRecordEnhanced = undefined;
-        for (let i = 1; i < mods.length; i++) {
-            const modChangedLooks = npcElements.some(elementPath => areElementsIdentical(mods[i].object[elementPath], mods[i - 1].object[elementPath]));
-            if (modChangedLooks)
-                lastNpcChangingMod = mods[i];
-        }
-
-        return lastNpcChangingMod;
     }
 
     function areElementsIdentical(element1: StringOrArrayOfStrings, element2: StringOrArrayOfStrings): boolean {
@@ -226,26 +203,6 @@ function execute() {
             logBuilder.push(s);
             return helpers.logMessage(s);
         };
-
-
-        /**
-         *
-         * @param {NpcModMd} name
-         * @return {*}
-         */
-        function isIgnoreMod(name: ModRecordPair) {
-            return settings.ignoreMods.includes(name.modName);
-        }
-
-        /**
-         *
-         * @param {NpcModMd} name
-         * @return {*}
-         */
-        function isLookMod(name: ModRecordPair) {
-            return settings.lookMods.includes(name.modName);
-        }
-
 
         /**
          * Returns an Map of Elements containing two Keys: record and modName. Records from Mods which try to edit the record.
@@ -426,7 +383,7 @@ function execute() {
 
                         if(noPatchMods.length > 0 ) {
                             if(noPatchMods[noPatchMods.length - 1].order < mods.length - 1)
-                                log("No Patch Mod is overwritten: " + xelib.Name(record)/* +"\n" + JSON.stringify(mods.map(mod => {return {modName: mod.modName, modType: mod.modType}}))*/)
+                                log("No Patch Mod is overwritten: " + xelib.Name(record)/* +"\n" + JSON.stringify(mods.map(mod => {return {modName: mod.modName, modType: mod.modType}}))*/);
                             return;
                         }
 
