@@ -1,0 +1,198 @@
+<div id="lukasNpcPatcherSettings" class="">
+
+    <style>
+
+        .npc-button {
+            transition: all 0.3s;
+            /*box-shadow: 1.2px 1.5px 2px 0 rgba(8, 8, 8, 0.21176), inset 1px 1px 2px 0 #fff;*/
+            color: black;
+            width: 100%;
+            border: 2px solid black;
+            border-radius: 10px;
+            padding: 0.4em 0.7em;
+            text-align: center;
+            cursor: pointer;
+            user-select: none;
+            background: none;
+        }
+
+        .dark-theme .npc-button {
+            color: #CCC;
+            box-shadow: 1.2px 1.5px 2px 0 rgba(255, 255, 255, 0.47);
+            border: 2px solid #CCC;
+        }
+
+        .npc-button:hover {
+            background-color: #ececec;
+        }
+
+        .dark-theme .npc-button:hover {
+            background-color: #545454;
+        }
+
+        .mod-type-label {
+            margin: 0 0.5em;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .mod-type-input:checked + .mod-type-label {
+            background-color: black;
+            color: white;
+        }
+
+        .dark-theme .mod-type-input:checked + .mod-type-label {
+            background-color: #CCC;
+            color: black;
+        }
+
+        .mod-type-input {
+            display: none;
+        }
+
+        /*Center*/
+        .mod-type-container {
+            display: flex;
+            flex-flow: row;
+        }
+
+        .mod-type-container :nth-child(2), .mod-type-container :last-child {
+            margin: 0;
+        }
+
+        .mod-name {
+            margin: 1em 0 0.5em;
+            font-size: 1em;
+        }
+
+        .npc-button-load {
+            margin-bottom: 1em;
+        }
+
+        section.npc-top {
+            margin-bottom: 2em;
+        }
+
+        #lukasNpcPatcherSettings fieldset {
+            border: none;
+            padding: 0;
+            margin: 0.5em 0 1.5em 0;
+        }
+
+        #lukasNpcPatcherSettings * {
+            font-size: 14px;
+            font-weight: 500;
+        }
+
+        .form__group {
+            position: relative;
+            padding: 30px 0 0;
+            margin-top: 10px;
+        }
+        .form__field {
+            font-family: inherit;
+            width: 100%;
+            border: 0;
+            border-bottom: 2px solid #9b9b9b;
+            outline: 0;
+            font-size: 1.3rem;
+            /*color: #fff;*/
+            padding: 7px 0;
+            background: transparent;
+            transition: border-color 0.2s;
+        }
+        .form__field::placeholder {
+            color: transparent;
+        }
+        .form__field:placeholder-shown ~ .form__label {
+            font-size: 1.3rem;
+            cursor: text;
+            top: 20px;
+        }
+        .form__label {
+            position: absolute;
+            top: 0;
+            display: block;
+            transition: 0.2s;
+            font-size: 1rem;
+            /*color: #9b9b9b;*/
+        }
+        .form__field:focus {
+            /*padding-bottom: 6px;*/
+            font-weight: 700;
+            border-width: 3px;
+            margin-bottom: -1px;
+            border-image: linear-gradient(to right, #11998e, #38ef7d);
+            border-image-slice: 1;
+        }
+        .form__field:focus ~ .form__label {
+            position: absolute;
+            top: 0;
+            display: block;
+            transition: 0.2s;
+            font-size: 1rem;
+            color: #11998e;
+            font-weight: 700;
+        }
+        /* reset input */
+        .form__field:required, .form__field:invalid {
+            box-shadow: none;
+        }
+
+    </style>
+
+    <script id="myJson" type="application/javascript">
+
+    </script>
+
+    <h2>Example Patcher</h2>
+
+    <!--<section>
+        <ignore-plugins patcher-id="npcOverhaulsPatcher"></ignore-plugins>
+    </section>
+
+    <section>
+        <div>
+            <span class="input-label" title="The value specified here will be displayed &#13;in an alert when the patcher initialized.">Example Setting</span>
+            <input type="text" ng-model="settings.npcOverhaulsPatcher.exampleSetting"/>
+        </div>
+
+        <button class="action-btn" ng-click="showMessage()">Show message</button>
+    </section>-->
+
+
+    <section class="npc-top">
+        <button class="npc-button npc-button-load" ng-click="loadNpcMods()">Load NPC modifying Mods</button>
+        <div class="npc-mod-filter-container form__group">
+                <input class="npc-mod-filter-input form__field" type=text name="npc-mod-filter" id="npc-mod-filter" ng-model="filter" placeholder="Filter" ng-change="filterMods(filter)"/>
+                <label class="npc-mod-filter-label form__label" for="npc-mod-filter">Filter (RegEx)</label>
+
+        </div>
+        </section>
+            <section>
+        <!--
+        [(ngModel)]="filter" (input)="filterMods(npc-mod-filter.value)"></md-input>
+        <div class="npc-button-settings-container">
+            <button class="npc-button npc-button-settings-load" ng-click="loadSettings()">Load Settings</button>
+            <button class="npc-button npc-button-settings-save" ng-click="saveSettings()">Save Settings</button>
+        </div>-->
+
+        <div>
+            <div class="npc-mod" ng-repeat="mod in npcModsMd" style="{{displayInvisible(mod.invisible ? 'display:none' : '')}}">
+                <div class="md-list-item-text">
+                    <span class="mod-name">{{mod.modName}}</span>
+
+                    <fieldset>
+                        <div class="mod-type-container">
+                            <input id="{{mod.modName + '-' + type.value}}" class="mod-type-input" ng-repeat-start="type in modTypes" ng-model="mod.type" type="radio" ng-value="type.value"/>
+                            <label for="{{mod.modName + '-' + type.value}}" class="mod-type-label npc-button" ng-repeat-end><span>{{ type.label }}</span></label>
+                        </div>
+                    </fieldset>
+
+                </div>
+            </div>
+        </div>
+
+    </section>
+</div>

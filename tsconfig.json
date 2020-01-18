@@ -1,0 +1,15 @@
+{
+  "files": [
+    "src/execute.ts",
+    "src/execute.d.ts"
+  ],
+  "compilerOptions": {
+    "noImplicitAny": true,
+    "target": "es2018",
+    "downlevelIteration": true,
+    "allowJs": true,
+    "declaration": true,
+    "typeRoots" : ["./typings","./src", "./node_modules/@types"],
+    "lib": ["es5", "es6", "es7", "es2018", "dom"]
+  }
+}

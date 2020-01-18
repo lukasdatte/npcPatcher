@@ -1,0 +1,6 @@
+node_modules/
+asar/
+compiled/
+.idea/
+unifiedPatchingFramework/
+*.zip

@@ -1,0 +1,317 @@
+{
+  "loadOrder": [
+    "Skyrim.esm",
+    "Update.esm",
+    "Dawnguard.esm",
+    "HearthFires.esm",
+    "Dragonborn.esm",
+    "Unofficial Skyrim Special Edition Patch.esp",
+    "TravellersOfSkyrim.esm",
+    "Cutting Room Floor.esp",
+    "MoonAndStar_MAS.esp",
+    "Weapons Armor Clothing & Clutter Fixes.esp",
+    "Cloaks.esp",
+    "LostTreasures.esp",
+    "Diversity - A Character Overhaul.esp",
+    "OBIS SE.esp",
+    "EconomyOverhaulandSpeechcraftImprovements.esp",
+    "OpulentThievesGuild.esp",
+    "TKAA.esp",
+    "MannequinDesigns.esp",
+    "OBIS Female Mannequins Patch.esp",
+    "OBIS Loot SE.esp",
+    "Quest Conflict Fixes.esp",
+    "TravellersOfSkyrim - Dragonborn Addon.esp",
+    "AmazingFollowerTweaks.esp",
+    "Immersive Weapons.esp",
+    "ForgottenCity.esp",
+    "IW_Diversity_Patch.esp",
+    "Bijin_AIO-SV 2018.esp",
+    "Serana.esp",
+    "OBIS SE - Immersive Weapons Patch.esp",
+    "Cutting Room Floor TKAA Patch.esp",
+    "ForgottenCity TKAA Patch.esp",
+    "AltStartELFXEnhancedAddLight.esp",
+    "USSEP-Immersive Weapons Patch.esp",
+    "EconomyOverhaul CV - CuttingRoomFloor Patch.esp",
+    "EconomyOverhaul CV - WetAndCold Patch.esp",
+    "CollegeOfWinterholdImmersive.esp",
+    "CFTO.esp",
+    "PCE - USSEP+CRF Patch.esp",
+    "npcOverhaulsPatcher.esp"
+  ],
+  "modTypePair": [
+    [
+      "Skyrim.esm",
+      "base"
+    ],
+    [
+      "Dawnguard.esm",
+      "base"
+    ],
+    [
+      "HearthFires.esm",
+      "base"
+    ],
+    [
+      "Dragonborn.esm",
+      "base"
+    ],
+    [
+      "Unofficial Skyrim Special Edition Patch.esp",
+      "base"
+    ],
+    [
+      "TravellersOfSkyrim.esm",
+      "ignore"
+    ],
+    [
+      "Cutting Room Floor.esp",
+      "nonLooks"
+    ],
+    [
+      "MoonAndStar_MAS.esp",
+      "ignore"
+    ],
+    [
+      "JKs Skyrim.esp",
+      "normal"
+    ],
+    [
+      "Summermyst - Enchantments of Skyrim.esp",
+      "normal"
+    ],
+    [
+      "Skyrim Immersive Creatures Special Edition.esp",
+      "normal"
+    ],
+    [
+      "OBIS SE.esp",
+      "nonLooks"
+    ],
+    [
+      "SkyTEST-RealisticAnimals&Predators.esp",
+      "normal"
+    ],
+    [
+      "OpulentThievesGuild.esp",
+      "nonLooks"
+    ],
+    [
+      "ZIA_Complete Pack.esp",
+      "normal"
+    ],
+    [
+      "TKAA.esp",
+      "nonLooks"
+    ],
+    [
+      "Solitude Docks.esp",
+      "normal"
+    ],
+    [
+      "SkyrimSewers.esp",
+      "normal"
+    ],
+    [
+      "Inigo.esp",
+      "normal"
+    ],
+    [
+      "OutlawsRefuges.esp",
+      "normal"
+    ],
+    [
+      "Dawnguard Sentries SE.esp",
+      "normal"
+    ],
+    [
+      "Immersive Patrols II.esp",
+      "normal"
+    ],
+    [
+      "ArcheryV2.esp",
+      "normal"
+    ],
+    [
+      "honedmetal.esp",
+      "normal"
+    ],
+    [
+      "JS Armored Circlets SE.esp",
+      "normal"
+    ],
+    [
+      "OBIS Loot SE.esp",
+      "nonLooks"
+    ],
+    [
+      "TravellersOfSkyrim - Vanilla.esp",
+      "normal"
+    ],
+    [
+      "SolstheimMerchantsInWhiterun.esp",
+      "normal"
+    ],
+    [
+      "flaho_shi_eagles_nest_ENG.esp",
+      "normal"
+    ],
+    [
+      "SofiaFollower.esp",
+      "normal"
+    ],
+    [
+      "InsanitySorrow Weapons Pack.esp",
+      "normal"
+    ],
+    [
+      "Recorder Follower Base.esp",
+      "normal"
+    ],
+    [
+      "ForgottenCity.esp",
+      "ignore"
+    ],
+    [
+      "HothFollower.esp",
+      "normal"
+    ],
+    [
+      "middenexpandedlitesse.esp",
+      "normal"
+    ],
+    [
+      "PathofChampion.esp",
+      "normal"
+    ],
+    [
+      "Apocalypse - Magic of Skyrim.esp",
+      "normal"
+    ],
+    [
+      "FireBurns.esp",
+      "normal"
+    ],
+    [
+      "Ordinator - Perks of Skyrim.esp",
+      "normal"
+    ],
+    [
+      "Alternate Start - Live Another Life.esp",
+      "normal"
+    ],
+    [
+      "Palaces Castles Enhanced.esp",
+      "normal"
+    ],
+    [
+      "CollegeOfWinterholdImmersive.esp",
+      "nonLooks"
+    ],
+    [
+      "CFTO.esp",
+      "nonLooks"
+    ],
+    [
+      "Relationship Dialogue Overhaul.esp",
+      "normal"
+    ],
+    [
+      "Update.esm",
+      "base"
+    ],
+    [
+      "Weapons Armor Clothing & Clutter Fixes.esp",
+      "nonLooks"
+    ],
+    [
+      "Cloaks.esp",
+      "nonLooks"
+    ],
+    [
+      "LostTreasures.esp",
+      "nonLooks"
+    ],
+    [
+      "Diversity - A Character Overhaul.esp",
+      "normal"
+    ],
+    [
+      "EconomyOverhaulandSpeechcraftImprovements.esp",
+      "nonLooks"
+    ],
+    [
+      "MannequinDesigns.esp",
+      "normal"
+    ],
+    [
+      "OBIS Female Mannequins Patch.esp",
+      "normal"
+    ],
+    [
+      "Quest Conflict Fixes.esp",
+      "nonLooks"
+    ],
+    [
+      "TravellersOfSkyrim - Dragonborn Addon.esp",
+      "ignore"
+    ],
+    [
+      "AmazingFollowerTweaks.esp",
+      "nonLooks"
+    ],
+    [
+      "Immersive Weapons.esp",
+      "nonLooks"
+    ],
+    [
+      "IW_Diversity_Patch.esp",
+      "normal"
+    ],
+    [
+      "Bijin_AIO-SV 2018.esp",
+      "normal"
+    ],
+    [
+      "Serana.esp",
+      "normal"
+    ],
+    [
+      "OBIS SE - Immersive Weapons Patch.esp",
+      "nonLooks"
+    ],
+    [
+      "Cutting Room Floor TKAA Patch.esp",
+      "nonLooks"
+    ],
+    [
+      "ForgottenCity TKAA Patch.esp",
+      "ignore"
+    ],
+    [
+      "AltStartELFXEnhancedAddLight.esp",
+      "ignore"
+    ],
+    [
+      "USSEP-Immersive Weapons Patch.esp",
+      "nonLooks"
+    ],
+    [
+      "EconomyOverhaul CV - CuttingRoomFloor Patch.esp",
+      "ignore"
+    ],
+    [
+      "EconomyOverhaul CV - WetAndCold Patch.esp",
+      "ignore"
+    ],
+    [
+      "PCE - USSEP+CRF Patch.esp",
+      "ignore"
+    ],
+    [
+      "npcOverhaulsPatcher.esp",
+      "ignore"
+    ]
+  ]
+}
