@@ -167,7 +167,6 @@
         <div class="npc-mod-filter-container form__group">
                 <input class="npc-mod-filter-input form__field" type=text name="npc-mod-filter" id="npc-mod-filter" ng-model="filter" placeholder="Filter" ng-change="filterMods(filter)"/>
                 <label class="npc-mod-filter-label form__label" for="npc-mod-filter">Filter (RegEx)</label>
-
         </div>
         </section>
             <section>
@@ -179,14 +178,14 @@
         </div>-->
 
         <div>
-            <div class="npc-mod" ng-repeat="mod in npcModsMd" style="{{displayInvisible(mod.invisible ? 'display:none' : '')}}">
+            <div class="npc-mod" ng-repeat="mod in npcModsMd" style="{{displayInvisible(mod.invisible)}}">
                 <div class="md-list-item-text">
                     <span class="mod-name">{{mod.modName}}</span>
 
                     <fieldset>
                         <div class="mod-type-container">
-                            <input id="{{mod.modName + '-' + type.value}}" class="mod-type-input" ng-repeat-start="type in modTypes" ng-model="mod.type" type="radio" ng-value="type.value"/>
-                            <label for="{{mod.modName + '-' + type.value}}" class="mod-type-label npc-button" ng-repeat-end><span>{{ type.label }}</span></label>
+                            <input id="{{mod.modName + '-' + modType.value}}" class="mod-type-input" ng-repeat-start="modType in modTypes" ng-model="mod.type" type="checkbox" ng-value="modType.value"/>
+                            <label for="{{mod.modName + '-' + modType.value}}" class="mod-type-label npc-button" ng-repeat-end><span>{{ type.label }}</span></label>
                         </div>
                     </fieldset>
 

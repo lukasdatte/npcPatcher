@@ -41,8 +41,10 @@ interface UpfHelpers {
  */
 
 interface ModType {
-    value: string;
-    label: string;
+    looks: boolean,
+    items: boolean,
+    armor: boolean,
+    allOther: boolean,
 }
 
 

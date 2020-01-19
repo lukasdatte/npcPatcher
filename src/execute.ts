@@ -69,21 +69,21 @@ function execute() {
      * Enum of all
      * @type {{normal: ModType, ignore: ModType, notify: ModType, base: ModType}}
      */
-    const modTypes: { normal: ModType, ignore: ModType, nonLooks : ModType, noPatch: ModType, base: ModType } = {
-        normal: {value: "normal", label: "Normal"},
-        ignore: {value: "ignore", label: "Ignore"},
-        base: {value: "base", label: "Base"},
-        nonLooks: {value: "nonLooks", label: "Non NPC Looks (Obis...)"},
-        noPatch: {value: "full", label: "No Patch (Don't overwrite anything)"},
+    const modTypesLabels: { normal: string, ignore: string, nonLooks : string, noPatch: string, base: string } = {
+        normal: "Normal",
+        ignore: "Ignore",
+        base: "Base",
+        nonLooks: "Non NPC Looks (Obis...)",
+        noPatch: "No Patch (Don't overwrite anything)",
     };
 
-    const defaultModType: ModType = modTypes.normal;
+    const defaultModType: ModType = modTypesLabels.normal;
 
     function getModTypeFromString(string: string, returnDefault = false): ModType | null {
         if(!string)
             return returnDefault ? defaultModType : null;
         // @ts-ignore
-        const modType = modTypes[string.trim()];
+        const modType = modTypesLabels[string.trim()];
         if (modType)
             return modType;
 
@@ -104,7 +104,7 @@ function execute() {
         } else {
             try {
                 loaded = fh.loadJsonFile(settingsPath);
-                modTypePair = new Map([...loaded.modTypePair].filter(e => e.length === 2 && e[0] && e[1] && Object.values(modTypes).some(type => type.value === e[1]))
+                modTypePair = new Map([...loaded.modTypePair].filter(e => e.length === 2 && e[0] && e[1] && Object.values(modTypesLabels).some(type => type.value === e[1]))
                     .map(e => [e[0].trim(), e[1]]));
             } catch (e) {
                 console.log(e);
@@ -239,7 +239,7 @@ function execute() {
                 if (!modType)
                     log(`Not defined mod ${m} - ModType missing. Please Load NPC Mods in Settings Tab!!!`);
                 //settings.modTypePair.set(m.modName, modTypes.normal.value);
-                return modType !== modTypes.ignore.value && modType !== modTypes.base.value;
+                return modType !== modTypesLabels.ignore.value && modType !== modTypesLabels.base.value;
             });
         }
 
@@ -308,7 +308,7 @@ function execute() {
                                 return false;
 
                             //TODO support npcs Added by non base Mods
-                            if(! (getModTypeOfMod(getFilenameOfRecord(xelib.GetMasterRecord(record)), settings) === modTypes.base) )
+                            if(! (getModTypeOfMod(getFilenameOfRecord(xelib.GetMasterRecord(record)), settings) === modTypesLabels.base) )
                                 return false;
 
                             const mods = getModsSettingThisRecord(record, false);
@@ -370,10 +370,10 @@ function execute() {
                         //log("Mod count Should't be smaller than 2 - " + xelib.Name(record) + " - " + mods);
 
                         const modsExclSkyrim = mods.filter(mod => !baseGameMods.some(baseMod => (mod.modName === baseMod)));
-                        const baseMods = modsExclSkyrim.filter(mod => mod.modType === modTypes.base);
+                        const baseMods = modsExclSkyrim.filter(mod => mod.modType === modTypesLabels.base);
                         const looksModNotIdenticalToBase = modsExclIgnoreBase.filter(mod => !baseMods.some(baseMod => areLooksOfModsIdentical(mod, baseMod)));
-                        const nonLooksMods = modsExclSkyrim.filter(mod => mod.modType === modTypes.nonLooks || mod.modType === modTypes.base);
-                        const noPatchMods = modsExclIgnoreBase.filter(mod => mod.modType === modTypes.noPatch);
+                        const nonLooksMods = modsExclSkyrim.filter(mod => mod.modType === modTypesLabels.nonLooks || mod.modType === modTypesLabels.base);
+                        const noPatchMods = modsExclIgnoreBase.filter(mod => mod.modType === modTypesLabels.noPatch);
 
 
 
@@ -533,10 +533,10 @@ function execute() {
         };*/
         //TODO $scope.loadNpcMods();
 
-        $scope.modTypes = modTypes;
+        $scope.modTypes = modTypesLabels;
         $scope.npcModsMd = [{
             modName: 'Press "Load NPC modifying Mods"',
-            type: modTypes.normal.value,
+            type: modTypesLabels.normal.value,
             invisible: false
         }];
 
