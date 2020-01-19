@@ -1,4 +1,2 @@
-# zedit-example-patcher
-An example patcher using zEdit's Unified Patching Framework.
-
-Please see [getting started](https://github.com/matortheeternal/zedit-example-patcher/blob/master/Getting%20Started.md) for information on getting started with zEdit UPF patchers.
+# Lukas' NPC Patcher
+This is a patcher, which allows merging of NPC looks mods with non look mods like 'Diversity - A Character Overhaul' (looks) and 'Immersive Weapons' (non looks).
