@@ -46,12 +46,10 @@ registerPatcher({
 });
 
 function getExecute() {
+    //<remove>
     const executePath = "modules/npcOverhaulsPatcher/compiled/execute.js";
     eval(fh.loadTextFile(executePath));
+    //</remove>
+    //<replace file="compiled/execute.js">
     return execute(fh, xelib, registerPatcher, patcherUrl);
 }
-
-/*function getExecute() {
-    eval(fh.loadTextFile("modules/npcOverhaulsPatcher/execute.js"));
-    return executeDynamic;
-}*/

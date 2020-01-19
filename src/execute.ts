@@ -7,6 +7,8 @@
 
 //let fh, ngapp, xelib, registerPatcher, patcherUrl;
 
+//<remove beginning>
+
 function execute() {
 
     /**
@@ -14,13 +16,18 @@ function execute() {
      copyElementOfRecord(look.record, patchRecord, "Head Parts\\", );
      * @param {int} sourceRecord Source XelibRecord
      * @param {int} destRecord Destination XelibRecord
-     * @param {string} path Path of element, which should be copied;
+     * @param {string} path Path of element, which should be copied; {@code \} must not end the path string!!!
      * @param {boolean} justDelete true: delete the source record and do not copy it to dest
      */
-    function copyElementOfRecord(sourceRecord: any, destRecord: any, path: string, justDelete: boolean) {
-        const patchElement = xelib.GetElement(destRecord, path);
-        xelib.RemoveElement(patchElement, "");
+    function copyElementOfRecord(sourceRecord: XelibRecord, destRecord: XelibRecord, path: string, justDelete: boolean) {
+        //const patchElement = xelib.GetElement(destRecord, path);
+        //xelib.RemoveElement(patchElement, "");
+        xelib.RemoveElement(destRecord, path);
         if (!justDelete) {
+            //const indexOfSlash = path.lastIndexOf("\\");
+            //let destElement = destRecord;
+            /*if (indexOfSlash > 0 && indexOfSlash !== path.length - 1)
+                destElement = xelib.GetElement(destRecord, path.substring(0, indexOfSlash));*/
             const sourceElement = xelib.GetElement(sourceRecord, path);
             xelib.CopyElement(sourceElement, destRecord);
         }
@@ -33,7 +40,8 @@ function execute() {
     }
 
     const npcElements = ["Head Parts", "QNAM - Texture lighting", "NAM9 - Face morph", "NAMA - Face parts", "Tint Layers", "HCLF - Hair Color", "FTST - Head texture", "NAM7 - Weight", "NAM6 - Height"];
-    const npcElementsSecondary = ["WNAM - Worn Armor", "AIDT - AI Data\\Mood"];
+    const npcElementsSecondary = ["WNAM - Worn Armor","DOFT - Default Outfit", "AIDT - AI Data", "OBND - Object Bounds", "Actor Effects", "SPCT - Count"]; //"AIDT - AI Data\\Mood"
+    const npcElementsTertiary = ["Items", "Perks", "ACBS - Configuration", "Factions"]; //"AIDT - AI Data\\Mood"
     const baseGameMods = ["Skyrim.esm", "Update.esm", "Dawnguard.esm", "HearthFires.esm", "Dragonborn.esm"];
 
     /**
@@ -141,34 +149,36 @@ function execute() {
     }
 
     function areLooksOfModsIdentical(mod1: ModRecordEnhanced, mod2: ModRecordEnhanced) {
-        return npcElements.every(elementPath => areElementsIdentical(mod1.object[elementPath], mod2.object[elementPath]));
+        return npcElements.every(elementPath => areElementsIdentical(mod1, mod2, elementPath));
     }
 
-    function areElementsIdentical(element1: StringOrArrayOfStrings, element2: StringOrArrayOfStrings): boolean {
-        return JSON.stringify(element1) === JSON.stringify(element2)
-
-        /*if (element1 == element2)
-            return true;
-
-        if (typeof element1 != typeof element2)
-            return false;
-
-        if (Array.isArray(element1)) {
-            if (element1.length == element2.length) {
-                for (let i = 0; i < element1.length; i++) {
-                    if (typeof element1[i] != typeof element2[i])
-                        return false;
-                    if (Array.isArray(element1[i]) && !areElementsIdentical(element1[i], element2[i]))
-                        return false;
-                    if (element1[i] != element2[i])
-                        return false;
-                }
-                return true;
-            } else
-                return false;
+    function getObjectAtPath(record: ModRecordEnhanced, path: string) : any | undefined {
+        const strings = path.split("\\");
+        let e1 = record.object;
+        for (let i = 0; i < strings.length; i++) {
+            if (e1 == undefined)
+                return undefined;
+            e1 = e1[strings[i]];
         }
+        return e1;
+    }
 
-        throw "No String or Array: \n" + element1 + " - \n" + element2;*/
+    function areElementsIdentical(element1: ModRecordEnhanced, element2: ModRecordEnhanced, path: string): boolean {
+        return JSON.stringify(getObjectAtPath(element1, path)) === JSON.stringify(getObjectAtPath(element2, path))
+
+        /*const indexOfSlash = path.indexOf("\\");
+        if(indexOfSlash !== -1) {
+            const strings = path.split("\\");
+            let e1 = element1.object;
+            let e2 = element2.object;
+            for (let i = 0; i < strings.length; i++) {
+                e1 = e1[strings[i]];
+                e2 = e2[strings[i]];
+            }
+            return JSON.stringify(e1) === JSON.stringify(e2)
+        } else {
+            return JSON.stringify(element1.object[path]) === JSON.stringify(element2.object[path])
+        }*/
     }
 
     /**
@@ -333,9 +343,9 @@ function execute() {
         function patch(record: XelibRecord) {
             try {
 
-                /*if (xelib.Name(record) === "Addvar")
+                /*if (xelib.Name(record) === "Ria")
                     debugger;
-                if (xelib.EditorID(record) === "Ria")
+                if (xelib.EditorID(record) === "CamillaValerius")
                     debugger;*/
                 const mods: ModRecordEnhanced[] = enhanceModRecordPairs(getModsSettingThisRecord(record, true), settings);
                 const modsExclIgnoreBase = getModsExclIgnoreBase(mods);
@@ -359,7 +369,7 @@ function execute() {
                     return;
                 }
 
-                const lastLookMod: ModRecordEnhanced = lastOffArray(looksModNotIdenticalToBase);
+                const lastLooksMod: ModRecordEnhanced = lastOffArray(looksModNotIdenticalToBase);
                 const lastNonLooksMod: ModRecordEnhanced = lastOffArray(nonLooksMods);
 
                 //Use the XelibRecord from lastNonLooksMod as a Base. Remove current record and copy nonLook to the patch
@@ -368,13 +378,20 @@ function execute() {
                 //Copy Looks to Patch
 
                 npcElements.forEach((element: string) =>
-                    copyElementOfRecord(lastLookMod.record, patchRecord, element/* + "\\"*/, lastLookMod.object[element] === undefined)
+                    copyElementOfRecord(lastLooksMod.record, patchRecord, element/* + "\\"*/, lastLooksMod.object[element] === undefined)
                 );
 
                 npcElementsSecondary.forEach((element: string) => {
-                    const isElementIdenticalToBaseMod = baseMods.some(baseMod => areElementsIdentical(lastLookMod.object[element], baseMod.object[element]));
-                    if(isElementIdenticalToBaseMod)
-                        copyElementOfRecord(lastLookMod.record, patchRecord, element/* + "\\"*/, lastLookMod.object[element] === undefined);
+                    const isElementIdenticalToBaseMod = baseMods.some(baseMod => areElementsIdentical(lastLooksMod, baseMod, element));
+                    if (!isElementIdenticalToBaseMod)
+                        copyElementOfRecord(lastLooksMod.record, patchRecord, element, getObjectAtPath(lastLooksMod, element) === undefined);
+                });
+
+                npcElementsTertiary.forEach((element: string) => {
+                    const isLookElementIdenticalToBaseMod = baseMods.some(baseMod => areElementsIdentical(lastLooksMod, baseMod, element));
+                    const isNonLookElementIdenticalToBaseMod = baseMods.some(baseMod => areElementsIdentical(lastNonLooksMod, baseMod, element));
+                    if (isNonLookElementIdenticalToBaseMod && !isLookElementIdenticalToBaseMod)
+                        copyElementOfRecord(lastLooksMod.record, patchRecord, element, getObjectAtPath(lastLooksMod, element) === undefined);
                 });
 
                 //TODO Copy AI Data - copyElementOfRecord(look.record,patchRecord,"AIDT - AI Data\\Mood", !lookObj["AIDT - AI Data"] || !lookObj["AIDT - AI Data"]["Mood"]);
@@ -613,5 +630,5 @@ function execute() {
     }
 
 }
-
+//<remove end>
 //# sourceURL=modules/npcOverhaulsPatcher/src/execute.ts
