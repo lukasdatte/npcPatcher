@@ -26,13 +26,14 @@ function execute() {
         }
     }
 
-    function lastOffArray <T> (array : T[]) : T | undefined {
-        if(array && array.length > 0)
+    function lastOffArray<T>(array: T[]): T | undefined {
+        if (array && array.length > 0)
             return array[array.length - 1];
         return undefined;
     }
 
     const npcElements = ["Head Parts", "QNAM - Texture lighting", "NAM9 - Face morph", "NAMA - Face parts", "Tint Layers", "HCLF - Hair Color", "FTST - Head texture", "NAM7 - Weight", "NAM6 - Height"];
+    const npcElementsSecondary = ["WNAM - Worn Armor", "AIDT - AI Data\\Mood"];
     const baseGameMods = ["Skyrim.esm", "Update.esm", "Dawnguard.esm", "HearthFires.esm", "Dragonborn.esm"];
 
     /**
@@ -40,7 +41,7 @@ function execute() {
      * @param record a handle of an XelibRecord
      * @returns {*|string} The mod that contains that record.
      */
-    function getFilenameOfRecord(record: XelibRecord) : string {
+    function getFilenameOfRecord(record: XelibRecord): string {
         const path = xelib.Path(record);
         return path.substr(0, path.length - 9);
     }
@@ -69,7 +70,7 @@ function execute() {
      * Enum of all
      * @type {{normal: ModType, ignore: ModType, notify: ModType, base: ModType}}
      */
-    const modTypes: { normal: ModType, ignore: ModType, nonLooks : ModType, noPatch: ModType, base: ModType } = {
+    const modTypes: { normal: ModType, ignore: ModType, nonLooks: ModType, noPatch: ModType, base: ModType } = {
         normal: {value: "normal", label: "Normal"},
         ignore: {value: "ignore", label: "Ignore"},
         base: {value: "base", label: "Base"},
@@ -80,7 +81,7 @@ function execute() {
     const defaultModType: ModType = modTypes.normal;
 
     function getModTypeFromString(string: string, returnDefault = false): ModType | null {
-        if(!string)
+        if (!string)
             return returnDefault ? defaultModType : null;
         // @ts-ignore
         const modType = modTypes[string.trim()];
@@ -243,244 +244,174 @@ function execute() {
             });
         }
 
-        // noinspection JSUnusedLocalSymbols
-        return {
-            initialize: function () {
-                try {
+        function initialize() {
+            try {
 
-                    /**
-                     *
-                     * @type {Map<int, Object<String, String>>} Whit XelibRecord ist from what Mod. Contains Key handle from patch and string of Mod
-                     */
-                    //locals.mods = new Map();
+                /**
+                 *
+                 * @type {Map<int, Object<String, String>>} Whit XelibRecord ist from what Mod. Contains Key handle from patch and string of Mod
+                 */
+                //locals.mods = new Map();
 
-                    locals.npcMods = new Set();
+                locals.npcMods = new Set();
 
-                    //TODO Debug caching
-                    //if (!settings.loadOrder || !settings.modTypePair || !settings.modTypePair.get) {
-                    const newSettings = loadSettingsFromFile();
-                    settings.loadOrder = newSettings.loadOrder;
-                    settings.modTypePair = newSettings.modTypePair;
-                    //}
+                //TODO Debug caching
+                //if (!settings.loadOrder || !settings.modTypePair || !settings.modTypePair.get) {
+                const newSettings = loadSettingsFromFile();
+                settings.loadOrder = newSettings.loadOrder;
+                settings.modTypePair = newSettings.modTypePair;
+                //}
 
 
-                    if (!(globalThis as any).ld)
-                        (globalThis as any).ld = {};
-                    (globalThis as any).ld.settings2 = settings;
-                    //log(JSON.stringify({loadOrder: settings.loadOrder, modTypePair: [...settings.modTypePair]}));
-                } catch (e) {
-                    log("Error 4!!!! " + e);
+                if (!(globalThis as any).ld)
+                    (globalThis as any).ld = {};
+                (globalThis as any).ld.settings2 = settings;
+                //log(JSON.stringify({loadOrder: settings.loadOrder, modTypePair: [...settings.modTypePair]}));
+            } catch (e) {
+                log("Error 4!!!! " + e);
+            }
+        }
+
+        /**
+         *
+         * @param {XelibRecord} record Der Master XelibRecord.
+         * @returns {boolean}
+         */
+        function filter(record: XelibRecord) {
+            try {
+
+                /*if (xelib.Name(record) === "Addvar" || xelib.EditorID(record) === "Addvar")
+                    debugger;*/
+
+                /*if (xelib.EditorID(record) === "Ria")
+                    debugger;*/
+
+                if (!isProbablyHumanoidNpcRecord(record))
+                    return false;
+
+                //TODO support npcs Added by non base Mods
+                if (!(getModTypeOfMod(getFilenameOfRecord(xelib.GetMasterRecord(record)), settings) === modTypes.base))
+                    return false;
+
+                const mods = getModsSettingThisRecord(record, false);
+                if (mods.length <= 1) //-> nothing to patch here
+                    return false;
+
+                mods.forEach((mod: ModRecordPair) => locals.npcMods.add(mod.modName));
+
+                //Predestines Mods with "Normal" if there is no Setting.
+                const modsExclIgnoreBase = getModsExclIgnoreBase(mods);
+
+                if (modsExclIgnoreBase.length < 1) //-> nothing to patch here
+                    return false;
+
+                //log( xelib.EditorID(record) + " " + xelib.GetConflictData(0, record, false));
+                //log("Mods: " + mods + " -- " + settings.lookMods);
+                //Are there Any Records conflicting with this one
+                const conflictValue = xelib.GetConflictData(0, record, false)[0];
+                if (conflictValue === 1 || conflictValue === 2) //Only one record or no conflict
+                    return false;
+
+
+                if (conflictValue === 0) {
+                    log("Unknown Conflict State with " + xelib.EditorID(record) + " " + xelib.GetFormID(record), Level.warn);
+                    log(xelib.EditorID(record) + " " + xelib.GetConflictData(0, record, false));
                 }
 
+                return true;
+            } catch (e) {
+                log("Error 1!!!! " + e);
+            }
 
-                /*/**
-                 * @typedef ModsOfRecord
-                 * @type {object}
-                 * @property {string[]} allMods - The ModTypes key.
-                 * @property {string[]} label - for humans Readable.
-                 */
-                /*/**
-                 *
-                 * @type {Map<XelibRecord, ModsOfRecord}
-                 */
-                /*locals.modsOfRecordMap = new Map();*/
-            },
+            return false;
+        }
+
+        /**
+         *
+         * @param record Der XelibRecord aus der Patch ESP Datei.
+         */
+        function patch(record: XelibRecord) {
+            try {
+
+                /*if (xelib.Name(record) === "Addvar")
+                    debugger;
+                if (xelib.EditorID(record) === "Ria")
+                    debugger;*/
+                const mods: ModRecordEnhanced[] = enhanceModRecordPairs(getModsSettingThisRecord(record, true), settings);
+                const modsExclIgnoreBase = getModsExclIgnoreBase(mods);
+
+                //log("Mod count Should't be smaller than 2 - " + xelib.Name(record) + " - " + mods);
+
+                const modsExclSkyrim = mods.filter(mod => !baseGameMods.some(baseMod => (mod.modName === baseMod)));
+                const baseMods = modsExclSkyrim.filter(mod => mod.modType === modTypes.base);
+                const looksModNotIdenticalToBase = modsExclIgnoreBase.filter(mod => !baseMods.some(baseMod => areLooksOfModsIdentical(mod, baseMod)));
+                const nonLooksMods = modsExclSkyrim.filter(mod => mod.modType === modTypes.nonLooks || mod.modType === modTypes.base);
+                const noPatchMods = modsExclIgnoreBase.filter(mod => mod.modType === modTypes.noPatch);
+
+
+                //Nothing to Patch here
+                if (looksModNotIdenticalToBase.length < 1 || nonLooksMods.length < 1)
+                    return;
+
+                if (noPatchMods.length > 0) {
+                    if (noPatchMods[noPatchMods.length - 1].order < mods.length - 1)
+                        log("No Patch Mod is overwritten: " + xelib.Name(record)/* +"\n" + JSON.stringify(mods.map(mod => {return {modName: mod.modName, modType: mod.modType}}))*/);
+                    return;
+                }
+
+                const lastLookMod: ModRecordEnhanced = lastOffArray(looksModNotIdenticalToBase);
+                const lastNonLooksMod: ModRecordEnhanced = lastOffArray(nonLooksMods);
+
+                //Use the XelibRecord from lastNonLooksMod as a Base. Remove current record and copy nonLook to the patch
+                xelib.RemoveElement(record, "");
+                const patchRecord = xelib.CopyElement(lastNonLooksMod.record, patchFile, false);
+                //Copy Looks to Patch
+
+                npcElements.forEach((element: string) =>
+                    copyElementOfRecord(lastLookMod.record, patchRecord, element/* + "\\"*/, lastLookMod.object[element] === undefined)
+                );
+
+                npcElementsSecondary.forEach((element: string) => {
+                    const isElementIdenticalToBaseMod = baseMods.some(baseMod => areElementsIdentical(lastLookMod.object[element], baseMod.object[element]));
+                    if(isElementIdenticalToBaseMod)
+                        copyElementOfRecord(lastLookMod.record, patchRecord, element/* + "\\"*/, lastLookMod.object[element] === undefined);
+                });
+
+                //TODO Copy AI Data - copyElementOfRecord(look.record,patchRecord,"AIDT - AI Data\\Mood", !lookObj["AIDT - AI Data"] || !lookObj["AIDT - AI Data"]["Mood"]);
+
+                log(xelib.EditorID(patchRecord) + " Patched: " /*+ JSON.stringify(mods.map(mod => {return {modName: mod.modName, modType: mod.modType}}))*/)
+
+                //log(xelib.FullName(record) + " -- " + mods.join(", "));
+            } catch (e) {
+                log("Error 2!!!! " + e);
+            }
+        }
+
+
+        function finalize() {
+            let allNpcMod = Array.from(locals.npcMods);
+            allNpcMod = xelib.GetLoadedFileNames().filter(n => allNpcMod.includes(n));
+
+            log("all Mods " + Array.from(locals.npcMods));
+            fh.saveTextFile("C:\\EigeneProgramme\\zEdit\\modules\\npcOverhaulsPatcher\\log.txt", logBuilder.join("\n"));
+            fh.saveTextFile("C:\\EigeneProgramme\\zEdit\\modules\\npcOverhaulsPatcher\\npcMods.json", JSON.stringify(allNpcMod));
+        }
+
+        // noinspection JSUnusedLocalSymbols
+        return {
+            initialize: initialize,
             // required: array of process blocks. each process block should have both
             // a load and a patch function.
             process: [{
                 load: {
                     signature: 'NPC_',
-                    /**
-                     *
-                     * @param {XelibRecord} record Der Master XelibRecord.
-                     * @returns {boolean}
-                     */
-                    filter: function (record: any) {
-                        try {
-
-                            /*if (xelib.Name(record) === "Addvar" || xelib.EditorID(record) === "Addvar")
-                                debugger;*/
-
-                            /*if (xelib.EditorID(record) === "Ria")
-                                debugger;*/
-
-                            if (!isProbablyHumanoidNpcRecord(record))
-                                return false;
-
-                            //TODO support npcs Added by non base Mods
-                            if(! (getModTypeOfMod(getFilenameOfRecord(xelib.GetMasterRecord(record)), settings) === modTypes.base) )
-                                return false;
-
-                            const mods = getModsSettingThisRecord(record, false);
-                            if (mods.length <= 1) //-> nothing to patch here
-                                return false;
-
-                            mods.forEach((mod: ModRecordPair) => locals.npcMods.add(mod.modName));
-
-                            //Predestines Mods with "Normal" if there is no Setting.
-                            const modsExclIgnoreBase = getModsExclIgnoreBase(mods);
-
-                            if (modsExclIgnoreBase.length < 1) //-> nothing to patch here
-                                return false;
-
-                            //log( xelib.EditorID(record) + " " + xelib.GetConflictData(0, record, false));
-                            //log("Mods: " + mods + " -- " + settings.lookMods);
-                            //Are there Any Records conflicting with this one
-                            const conflictValue = xelib.GetConflictData(0, record, false)[0];
-                            if (conflictValue === 1 || conflictValue === 2) //Only one record or no conflict
-                                return false;
-
-
-                            if (conflictValue === 0) {
-                                log("Unknown Conflict State with " + xelib.EditorID(record) + " " + xelib.GetFormID(record), Level.warn);
-                                log(xelib.EditorID(record) + " " + xelib.GetConflictData(0, record, false));
-                            }
-
-                            //console.log(xelib.EditorID(record) + " " + xelib.GetConflictData(0, record, false) + " " + mods);
-
-                            //log(xelib.EditorID(record) + " " + xelib.GetConflictData(0, record, false));
-
-                            /*if(toPatch){
-                                log( xelib.EditorID(record) + " " + xelib.GetConflictData(0, record, false));
-                                log(xelib.FullName(record) + " -- " + mods.join(", "));
-                            }*/
-
-                            return true;
-                        } catch (e) {
-                            log("Error 1!!!! " + e);
-                        }
-
-                        return false;
-                    }
+                    filter: filter
                 },
-                /**
-                 *
-                 * @param record Der XelibRecord aus der Patch ESP Datei.
-                 */
-                patch: function (record: XelibRecord) {
-                    try {
-
-                        /*if (xelib.Name(record) === "Addvar")
-                            debugger;
-                        if (xelib.EditorID(record) === "Ria")
-                            debugger;*/
-                        const mods: ModRecordEnhanced[] = enhanceModRecordPairs(getModsSettingThisRecord(record, true), settings);
-                        const modsExclIgnoreBase = getModsExclIgnoreBase(mods);
-
-                        //log("Mod count Should't be smaller than 2 - " + xelib.Name(record) + " - " + mods);
-
-                        const modsExclSkyrim = mods.filter(mod => !baseGameMods.some(baseMod => (mod.modName === baseMod)));
-                        const baseMods = modsExclSkyrim.filter(mod => mod.modType === modTypes.base);
-                        const looksModNotIdenticalToBase = modsExclIgnoreBase.filter(mod => !baseMods.some(baseMod => areLooksOfModsIdentical(mod, baseMod)));
-                        const nonLooksMods = modsExclSkyrim.filter(mod => mod.modType === modTypes.nonLooks || mod.modType === modTypes.base);
-                        const noPatchMods = modsExclIgnoreBase.filter(mod => mod.modType === modTypes.noPatch);
-
-
-
-                        //Nothing to Patch here
-                        if(looksModNotIdenticalToBase.length < 1 || nonLooksMods.length < 1)
-                            return;
-
-                        if(noPatchMods.length > 0 ) {
-                            if(noPatchMods[noPatchMods.length - 1].order < mods.length - 1)
-                                log("No Patch Mod is overwritten: " + xelib.Name(record)/* +"\n" + JSON.stringify(mods.map(mod => {return {modName: mod.modName, modType: mod.modType}}))*/);
-                            return;
-                        }
-
-                        const lastLookMod : ModRecordEnhanced = lastOffArray(looksModNotIdenticalToBase);
-                        const lastNonLooksMod  : ModRecordEnhanced = lastOffArray(nonLooksMods);
-
-                        //Use the XelibRecord from lastNonLooksMod as a Base. Remove current record and copy nonLook to the patch
-                        xelib.RemoveElement(record, "");
-                        const patchRecord = xelib.CopyElement(lastNonLooksMod.record, patchFile, false);
-                        //Copy Looks to Patch
-
-                        npcElements.forEach((element : string) =>
-                            copyElementOfRecord(lastLookMod.record, patchRecord, element/* + "\\"*/, lastLookMod.object[element] === undefined)
-                        );
-
-                        //TODO Copy AI Data - copyElementOfRecord(look.record,patchRecord,"AIDT - AI Data\\Mood", !lookObj["AIDT - AI Data"] || !lookObj["AIDT - AI Data"]["Mood"]);
-
-                        log(xelib.EditorID(patchRecord) + " Patched: " /*+ JSON.stringify(mods.map(mod => {return {modName: mod.modName, modType: mod.modType}}))*/)
-
-                        //log(xelib.FullName(record) + " -- " + mods.join(", "));
-                    } catch (e) {
-                        log("Error 2!!!! " + e);
-                    }
-                },
-                /*
-                                patchAlt: function (record) {
-                                    // noinspection DuplicatedCode
-                                    try {
-
-                                        /!** @type {NpcModMd[]} *!/
-                                        const modRecordPairs : NpcModMd[] = getModsSettingThisRecord(record);
-
-                                        const lookMods : NpcModMd[] = [];
-                                        const nonLookMods : NpcModMd[]  = [];
-
-                                        let recordOfLastLookMod;
-                                        modRecordPairs.forEach(mod => {
-                                            if (isLookMod(mod)) {
-                                                recordOfLastLookMod = mod;
-                                                lookMods.push(mod)
-                                            } else {
-                                                if (!isIgnoreMod(mod))
-                                                    nonLookMods.push(mod)
-                                            }
-                                        });
-
-                                        if (nonLookMods.length === 0) {
-                                            log("XelibRecord is not written by any Non Look Mod");
-                                            log("  " + record + ": \"" + xelib.FullName(record) + "\" " + modRecordPairs);
-                                            return;
-                                        }
-
-                                        if (nonLookMods.length === 0) {
-                                            log("XelibRecord is not written by any Non Look Mod. This XelibRecord should have been filtered out.");
-                                            log("  " + record + ": \"" + xelib.FullName(record) + "\" " + modRecordPairs);
-                                            return;
-                                        }
-
-                                        const look = lookMods[lookMods.length - 1];
-                                        const nonLook = nonLookMods[nonLookMods.length - 1];
-                                        const lookObj = xelib.ElementToObject(look.record);
-                                        //nonLook.obj = xelib.ElementToObject(nonLook.record);
-
-                                        //Copy relevant Detail from look to non look
-
-                                        //log("\nnonLook " + nonLookMods[nonLookMods.length-1].modName + "\n" + JSON.stringify(nonLook));
-                                        //log("\nlook " + lookMods[lookMods.length-1].modName +"\n" + JSON.stringify(look));
-
-                                        //log("\nnonLook Finished\n" + JSON.stringify(nonLook));
-
-                                        //Write
-
-                                        //Use the XelibRecord from non Look Mod as a Base. Remove current and copy nonLook
-
-                                        xelib.RemoveElement(record, "");
-                                        const patchRecord = xelib.CopyElement(nonLook.record, patchFile, false);
-
-
-                                        const copyElements = ["Head Parts", "QNAM - Texture lighting", "NAM9 - Face morph", "NAMA - Face parts", "Tint Layers", "HCLF - Hair Color", "FTST - Head texture", "NAM7 - Weight", "NAM6 - Height"];
-                                        copyElements.forEach(element => copyElementOfRecord(look.record, patchRecord, element + "\\", !lookObj[element]));
-
-                                        //TODO Copy AI Data - copyElementOfRecord(look.record,patchRecord,"AIDT - AI Data\\Mood", !lookObj["AIDT - AI Data"] || !lookObj["AIDT - AI Data"]["Mood"]);
-
-
-                                        //log(xelib.FullName(record) + " -- " + modRecordPairs.join(", "));
-                                    } catch (e) {
-                                        log("Error 2!!!! " + e);
-                                    }
-                                }
-                */
+                patch: patch,
             }, {
                 load: {
                     signature: 'NPC_',
                     filter: function (record: XelibRecord) {
-                        // noinspection EqualityComparisonWi
-                        // thCoercionJS
-
                         return false;
 
                         /*let searchForId = "Ria"; //Ria
@@ -503,15 +434,9 @@ function execute() {
                     }
                 }
             }],
-            finalize: function () {
-                let allNpcMod = Array.from(locals.npcMods);
-                allNpcMod = xelib.GetLoadedFileNames().filter(n => allNpcMod.includes(n));
+            finalize: finalize
+        };
 
-                log("all Mods " + Array.from(locals.npcMods));
-                fh.saveTextFile("C:\\EigeneProgramme\\zEdit\\modules\\npcOverhaulsPatcher\\log.txt", logBuilder.join("\n"));
-                fh.saveTextFile("C:\\EigeneProgramme\\zEdit\\modules\\npcOverhaulsPatcher\\npcMods.json", JSON.stringify(allNpcMod));
-            }
-        }
     }
 
 
