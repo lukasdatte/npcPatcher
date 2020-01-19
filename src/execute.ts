@@ -43,10 +43,12 @@ function execute() {
      * Always copy those Elements to the Patcher Record from the looks Mod
      */
     const npcElements = ["Head Parts", "QNAM - Texture lighting", "NAM9 - Face morph", "NAMA - Face parts", "Tint Layers", "HCLF - Hair Color", "FTST - Head texture", "NAM7 - Weight", "NAM6 - Height"];
+
     /**
      * Only copy those Elements to the Patcher Record from the looks Mod, if the data contained in those elements differ from all Base Mods.
      */
     const npcElementsSecondary = ["WNAM - Worn Armor","DOFT - Default Outfit", "AIDT - AI Data", "OBND - Object Bounds", "SPCT - Count"]; //"AIDT - AI Data\\Mood"
+
     /**
      * Always copy those Elements to the Patcher Record from the looks Mod, if the data contained in those elements differ from all Base Mods and the non look mod doesn't differ from any base mod.
      */
