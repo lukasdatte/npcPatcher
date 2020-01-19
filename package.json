@@ -12,7 +12,7 @@
     "release": "gulp release"
   },
   "devDependencies": {
-    "angular": "^1.6.6",
+    "angular": "^1.7.9",
     "gulp": "^4.0.2",
     "gulp-clean": "^0.3.2",
     "gulp-include": "^2.3.1",
