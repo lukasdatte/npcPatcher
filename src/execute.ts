@@ -39,9 +39,22 @@ function execute() {
         return undefined;
     }
 
+    /**
+     * Always copy those Elements to the Patcher Record from the looks Mod
+     */
     const npcElements = ["Head Parts", "QNAM - Texture lighting", "NAM9 - Face morph", "NAMA - Face parts", "Tint Layers", "HCLF - Hair Color", "FTST - Head texture", "NAM7 - Weight", "NAM6 - Height"];
-    const npcElementsSecondary = ["WNAM - Worn Armor","DOFT - Default Outfit", "AIDT - AI Data", "OBND - Object Bounds", "Actor Effects", "SPCT - Count"]; //"AIDT - AI Data\\Mood"
-    const npcElementsTertiary = ["Items", "Perks", "ACBS - Configuration", "Factions"]; //"AIDT - AI Data\\Mood"
+    /**
+     * Only copy those Elements to the Patcher Record from the looks Mod, if the data contained in those elements differ from all Base Mods.
+     */
+    const npcElementsSecondary = ["WNAM - Worn Armor","DOFT - Default Outfit", "AIDT - AI Data", "OBND - Object Bounds", "SPCT - Count"]; //"AIDT - AI Data\\Mood"
+    /**
+     * Always copy those Elements to the Patcher Record from the looks Mod, if the data contained in those elements differ from all Base Mods and the non look mod doesn't differ from any base mod.
+     */
+    const npcElementsTertiary = ["Items", "Perks", "ACBS - Configuration", "Factions", "Actor Effects"]; //"AIDT - AI Data\\Mood"
+
+    /**
+     * esm files from the Basegame: {@code Skyrim.esm, Update.esm, Dawnguard.esm, HearthFires.esm, Dragonborn.esm}
+     */
     const baseGameMods = ["Skyrim.esm", "Update.esm", "Dawnguard.esm", "HearthFires.esm", "Dragonborn.esm"];
 
     /**
