@@ -45,6 +45,11 @@ function execute() {
     const npcElements = ["Head Parts", "QNAM - Texture lighting", "NAM9 - Face morph", "NAMA - Face parts", "Tint Layers", "HCLF - Hair Color", "FTST - Head texture", "NAM7 - Weight", "NAM6 - Height"];
 
     /**
+     * Reduced amount of elements since there are rounding issues with the weight. Skyrim saves {@code 30.000002} and the mod saves {@code 30.000000}
+     */
+    const nbcElementsForIdenticalCheck = ["Head Parts", "QNAM - Texture lighting", "NAM9 - Face morph", "NAMA - Face parts", "Tint Layers", "HCLF - Hair Color", "FTST - Head texture"];
+
+    /**
      * Only copy those Elements to the Patcher Record from the looks Mod, if the data contained in those elements differ from all Base Mods.
      */
     const npcElementsSecondary = ["WNAM - Worn Armor","DOFT - Default Outfit", "AIDT - AI Data", "OBND - Object Bounds", "SPCT - Count"]; //"AIDT - AI Data\\Mood"
@@ -164,7 +169,7 @@ function execute() {
     }
 
     function areLooksOfModsIdentical(mod1: ModRecordEnhanced, mod2: ModRecordEnhanced) {
-        return npcElements.every(elementPath => areElementsIdentical(mod1, mod2, elementPath));
+        return nbcElementsForIdenticalCheck.every(elementPath => areElementsIdentical(mod1, mod2, elementPath));
     }
 
     function getObjectAtPath(record: ModRecordEnhanced, path: string) : any | undefined {
@@ -305,10 +310,9 @@ function execute() {
         function filter(record: XelibRecord) {
             try {
 
-                /*if (xelib.Name(record) === "Addvar" || xelib.EditorID(record) === "Addvar")
-                    debugger;*/
-
-                /*if (xelib.EditorID(record) === "Ria")
+                //if (xelib.Name(record) === "Gunjar")
+                //    debugger;
+                /*if (xelib.EditorID(record) === "Gunjar")
                     debugger;*/
 
                 if (!isProbablyHumanoidNpcRecord(record))
@@ -358,9 +362,9 @@ function execute() {
         function patch(record: XelibRecord) {
             try {
 
-                /*if (xelib.Name(record) === "Ria")
-                    debugger;
-                if (xelib.EditorID(record) === "CamillaValerius")
+                //if (xelib.Name(record) === "Veren Duleri") debugger;
+
+                /*if (xelib.EditorID(record) === "Gunjar")
                     debugger;*/
                 const mods: ModRecordEnhanced[] = enhanceModRecordPairs(getModsSettingThisRecord(record, true), settings);
                 const modsExclIgnoreBase = getModsExclIgnoreBase(mods);
@@ -368,7 +372,7 @@ function execute() {
                 //log("Mod count Should't be smaller than 2 - " + xelib.Name(record) + " - " + mods);
 
                 const modsExclSkyrim = mods.filter(mod => !baseGameMods.some(baseMod => (mod.modName === baseMod)));
-                const baseMods = modsExclSkyrim.filter(mod => mod.modType === modTypes.base);
+                const baseMods = mods.filter(mod => mod.modType === modTypes.base);
                 const looksModNotIdenticalToBase = modsExclIgnoreBase.filter(mod => !baseMods.some(baseMod => areLooksOfModsIdentical(mod, baseMod)));
                 const nonLooksMods = modsExclSkyrim.filter(mod => mod.modType === modTypes.nonLooks || mod.modType === modTypes.base);
                 const noPatchMods = modsExclIgnoreBase.filter(mod => mod.modType === modTypes.noPatch);
