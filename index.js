@@ -53,3 +53,4 @@ function getExecute() {
     //<replace file="compiled/execute.js">
     return execute(fh, xelib, registerPatcher, patcherUrl);
 }
+//# sourceURL=modules/npcOverhaulsPatcher/index.js
