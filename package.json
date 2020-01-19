@@ -24,6 +24,7 @@
     "xelib": "github:z-edit/xelib"
   },
   "dependencies": {
-    "@types/angular": "^1.6.57"
+    "@types/angular": "^1.6.57",
+    "gulp-replace": "^1.0.0"
   }
 }

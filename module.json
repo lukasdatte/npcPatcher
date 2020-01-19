@@ -1,11 +1,11 @@
 {
-  "id": "npcOverhaulsPatcher",
-  "name": "Lukas' NPC Overhauls Patcher",
+  "id": "lukasNpcPatcher",
+  "name": "Lukas' NPC Patcher",
   "author": "lukas.datte",
   "version": "0.1",
-  "released": "9/5/2017",
-  "updated": "2/22/2019",
-  "description": "An example of a patcher which uses zEdit's Unified Patching System.",
+  "released": "",
+  "updated": "01/19/2020",
+  "description": "Patcher, which allows merging of NPC looks mods with non look mods like 'Diversity - A Character Overhaul' (looks) and 'Immersive Weapons' (non looks).",
   "requires": ["unifiedPatchingFramework"],
   "moduleLoader": "UPF",
   "canHotLoad": true
