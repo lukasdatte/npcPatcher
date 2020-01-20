@@ -5,4 +5,5 @@ compiled/
 dist/
 unifiedPatchingFramework/
 *.zip
+*.rar
 log.txt
