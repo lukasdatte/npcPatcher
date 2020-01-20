@@ -2,7 +2,7 @@
   "name": "zedit-npc-overhauls-patcher",
   "productName": "Lukas' NPC Overhauls Patcher",
   "description": "Patcher, which allows merging of NPC looks mods with non look mods like 'Diversity - A Character Overhaul' (looks) and 'Immersive Weapons' (non looks).",
-  "version": "0.1",
+  "version": "0.1.0",
   "author": "lukas.datte",
   "copyright": "© 2019, lukas.datte",
   "repository": "",
@@ -12,17 +12,18 @@
     "release": "gulp release"
   },
   "devDependencies": {
+    "@types/angular": "^1.6.57",
     "gulp": "^4.0.2",
     "gulp-clean": "^0.3.2",
     "gulp-include": "^2.3.1",
+    "gulp-remove-dev": "git+https://github.com/lukasdatte/gulp-remove-dev.git",
     "gulp-rename": "^1.2.2",
+    "gulp-replace": "^1.0.0",
     "gulp-sourcemaps": "^2.6.5",
     "gulp-typescript": "^6.0.0-alpha.1",
     "gulp-zip": "^4.1.0",
     "typescript": "^3.7.4",
-    "xelib": "github:z-edit/xelib",
-    "@types/angular": "^1.6.57",
-    "gulp-replace": "^1.0.0"
+    "xelib": "github:z-edit/xelib"
   },
   "dependencies": {}
 }

@@ -6,7 +6,8 @@ const fs = require('fs'),
       zip = require('gulp-zip'),
       ts = require('gulp-typescript'),
       sourcemaps = require('gulp-sourcemaps'),
-      replace = require('gulp-replace');
+      replace = require('gulp-replace'),
+      remove = require('gulp-remove-dev');
 
 gulp.task('clean', function() {
     return gulp.src('dist/*', {read: false})
@@ -35,9 +36,9 @@ gulp.task('watch', gulp.series('ts', function() {
 }));
 
 gulp.task('build', gulp.series(['clean', 'ts'], function() {
-    const replaceDev = /(?:^\s*)?\/\/<remove>.*?\/\/<\/remove dev>(?:\s*$)?/gms;
+    /*const replaceDev = /(?:^\s*)?\/\/<remove>.*?\/\/<\/remove>(?:\s*$)?/gms;
     const replaceDevEnd = /(?:^\s*)?\/\/<remove end>.*$/gms;
-    const replaceDevBeginning = /^.*\/\/<remove beginning>(?:\s*$)/gms;
+    const replaceDevBeginning = /^.*\/\/<remove beginning>(?:\s*$)/gms;*/
     const replaceFile = /(?:^\s*)?\/\/<replace file="(.*?)">(?:\s*$)?/g;
 
     return Promise.all([
@@ -46,14 +47,10 @@ gulp.task('build', gulp.series(['clean', 'ts'], function() {
                 //return fs.readFileSync(match.replace(replaceFile, "$1"), "utf8")
                 return fs.readFileSync(p1, "utf8")
                 //return fs.readFileSync("compiled/execute.js", "utf8")
-                        .replace(replaceDev, "")
-                        .replace(replaceDevEnd, "")
-                        .replace(replaceDevBeginning, "")
+                        .replace(remove.regex, "")
                     + "\r\n";
             }))
-            .pipe(replace(replaceDev, ""))
-            .pipe(replace(replaceDevEnd, ""))
-            .pipe(replace(replaceDevBeginning, ""))
+            .pipe(remove())
             .on('error', console.log)
             .pipe(gulp.dest('dist')),
 
