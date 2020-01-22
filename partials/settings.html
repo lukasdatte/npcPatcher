@@ -5,9 +5,9 @@
         .npc-button {
             transition: all 0.3s;
             /*box-shadow: 1.2px 1.5px 2px 0 rgba(8, 8, 8, 0.21176), inset 1px 1px 2px 0 #fff;*/
-            color: black;
+            color: #4e4e4e;
             width: 100%;
-            border: 2px solid black;
+            border: 2px solid #4e4e4e;
             border-radius: 10px;
             padding: 0.4em 0.7em;
             text-align: center;
@@ -38,13 +38,15 @@
         }
 
         .mod-type-input:checked + .mod-type-label {
-            background-color: black;
+            background-color: #4e4e4e;
             color: white;
+            border-color: #4e4e4e;
         }
 
         .dark-theme .mod-type-input:checked + .mod-type-label {
             background-color: #CCC;
             color: black;
+            border-color: #CCC;
         }
 
         .mod-type-input {
@@ -165,12 +167,12 @@
     <section class="npc-top">
         <button class="npc-button npc-button-load" ng-click="loadNpcMods()">Load NPC modifying Mods</button>
         <div class="npc-mod-filter-container form__group">
-                <input class="npc-mod-filter-input form__field" type=text name="npc-mod-filter" id="npc-mod-filter" ng-model="filter" placeholder="Filter" ng-change="filterMods(filter)"/>
-                <label class="npc-mod-filter-label form__label" for="npc-mod-filter">Filter (RegEx)</label>
+            <input class="npc-mod-filter-input form__field" type=text name="npc-mod-filter" id="npc-mod-filter" ng-model="filter" placeholder="Filter" ng-change="filterMods(filter)"/>
+            <label class="npc-mod-filter-label form__label" for="npc-mod-filter">Filter (RegEx)</label>
 
         </div>
-        </section>
-            <section>
+    </section>
+    <section>
         <!--
         [(ngModel)]="filter" (input)="filterMods(npc-mod-filter.value)"></md-input>
         <div class="npc-button-settings-container">

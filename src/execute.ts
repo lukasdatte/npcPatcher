@@ -99,11 +99,11 @@ function execute() {
      * @type {{normal: ModType, ignore: ModType, notify: ModType, base: ModType}}
      */
     const modTypes: { normal: ModType, ignore: ModType, nonLooks: ModType, noPatch: ModType, base: ModType } = {
-        normal: {value: "normal", label: "Normal"},
-        ignore: {value: "ignore", label: "Ignore"},
         base: {value: "base", label: "Base"},
-        nonLooks: {value: "nonLooks", label: "Non NPC Looks (Obis...)"},
-        noPatch: {value: "full", label: "No Patch (Don't overwrite anything)"},
+        normal: {value: "normal", label: "Normal"},
+        nonLooks: {value: "nonLooks", label: "Copy Non Looks"},
+        ignore: {value: "ignore", label: "Ignore"},
+        noPatch: {value: "full", label: "Force No Patch"},
     };
 
     const defaultModType: ModType = modTypes.normal;
@@ -133,8 +133,12 @@ function execute() {
         } else {
             try {
                 loaded = fh.loadJsonFile(settingsPath);
-                modTypePair = new Map([...loaded.modTypePair].filter(e => e.length === 2 && e[0] && e[1] && Object.values(modTypes).some(type => type.value === e[1]))
-                    .map(e => [e[0].trim(), e[1]]));
+                if(loaded)
+                    modTypePair = new Map([...loaded.modTypePair]
+                        .filter(e => e.length === 2 && e[0] && e[1] && Object.values(modTypes).some(type => type.value === e[1]))
+                        .map(e => [e[0].trim(), e[1]]));
+                else
+                    return {loadOrder: [], modTypePair: new Map()};
             } catch (e) {
                 console.log(e);
                 return {loadOrder: [], modTypePair: new Map()};
@@ -552,7 +556,8 @@ function execute() {
         }
 
         function loadSettings() {
-            const newSettings = loadSettingsFromFile($scope.settings.npcOverhaulsPatcher.settings);
+            //TODO cache settings
+            const newSettings = loadSettingsFromFile(/*$scope.settings.npcOverhaulsPatcher.settings*/);
             settings.loadOrder = newSettings.loadOrder;
             settings.modTypePair = newSettings.modTypePair;
             $scope.npcModsMd = mapLoadorderToModType(settings.loadOrder, settings);
@@ -561,9 +566,13 @@ function execute() {
 
         function filterMods(filter: string) {
             function atLeastOneRegexMatch(regEx: string, string: string) {
-                const reg = new RegExp(regEx, 'i');
-                const exec = reg.exec(string);
-                return exec !== null;
+                try {
+                    const reg = new RegExp(regEx, 'i');
+                    const exec = reg.exec(string);
+                    return exec !== null;
+                } catch (e) {
+                    return false;
+                }
             }
 
             $scope.npcModsMd.forEach((mod: any) => {
@@ -596,7 +605,7 @@ function execute() {
 
         try {
             const colorValues = (color: string) => {
-                if (!color)
+                /*if (!color)
                     return;
                 if (color.toLowerCase() === 'transparent')
                     return [0, 0, 0, 0];
@@ -613,7 +622,7 @@ function execute() {
                 if (color.indexOf('rgb') === -1) {
                     // convert named colors
                     const temp_elem = document.body.appendChild(document.createElement('fictum')); // intentionally use unknown tag to lower chances of css rule override with !important
-                    const flag = 'rgb(1, 2,/**/ 3)'; // this flag tested on chrome 59, ff 53, ie9, ie10, ie11, edge 14
+                    const flag = 'rgb(1, 2,/!**!/ 3)'; // this flag tested on chrome 59, ff 53, ie9, ie10, ie11, edge 14
                     temp_elem.style.color = flag;
                     if (temp_elem.style.color !== flag)
                         return; // color set failed - some monstrous css rule is probably taking over the color of our object
@@ -622,7 +631,7 @@ function execute() {
                         return; // color parse failed
                     color = getComputedStyle(temp_elem).color;
                     document.body.removeChild(temp_elem);
-                }
+                }*/
                 if (color.indexOf('rgb') === 0) {
                     if (color.indexOf('rgba') === -1)
                         color += ',1'; // convert 'rgb(R,G,B)' to 'rgb(R,G,B)A' which looks awful but will pass the regxep below
@@ -635,7 +644,7 @@ function execute() {
             const color = colorValues(getComputedStyle(document.querySelectorAll(".modal-container .modal")[0], null).getPropertyValue("background-color"));
             const luminance = (0.2126 * color[0] + 0.7152 * color[1] + 0.0722 * color[2]);
 
-            if (luminance > 0.5)
+            if (luminance < 127)
                 document.getElementById("lukasNpcPatcherSettings").classList.add("dark-theme");
 
         } catch (e) {
