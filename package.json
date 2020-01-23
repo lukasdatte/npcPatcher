@@ -12,6 +12,7 @@
     "release": "gulp release"
   },
   "devDependencies": {
+    "@angular/language-service": "^8.2.14",
     "@types/angular": "^1.6.57",
     "gulp": "^4.0.2",
     "gulp-clean": "^0.3.2",
