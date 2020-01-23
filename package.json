@@ -15,15 +15,14 @@
     "@types/angular": "^1.6.57",
     "gulp": "^4.0.2",
     "gulp-clean": "^0.3.2",
-    "gulp-include": "^2.3.1",
+    "gulp-include": "^2.4.1",
     "gulp-remove-dev": "git+https://github.com/lukasdatte/gulp-remove-dev.git",
-    "gulp-rename": "^1.2.2",
+    "gulp-rename": "^1.4.0",
     "gulp-replace": "^1.0.0",
     "gulp-sourcemaps": "^2.6.5",
     "gulp-typescript": "^6.0.0-alpha.1",
-    "gulp-zip": "^4.1.0",
-    "typescript": "^3.7.4",
-    "xelib": "github:z-edit/xelib"
+    "gulp-zip": "^4.2.0",
+    "typescript": "^3.7.5"
   },
   "dependencies": {}
 }
