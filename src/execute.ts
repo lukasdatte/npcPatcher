@@ -1,3 +1,4 @@
+/// <reference path="src/execute.d.ts">
 /// <reference path="./execute.d.ts">
 /// <reference path="./../typings/xelib.d.ts" />
 /// <reference path="./../typings/fileHelpers.d.ts" />
@@ -33,10 +34,10 @@ function execute() {
         }
     }
 
-    function lastOffArray<T>(array: T[]): T | undefined {
+    function lastOffArray<T>(array: T[]): T {
         if (array && array.length > 0)
             return array[array.length - 1];
-        return undefined;
+        throw "Illegal Argument - cannot get last Element of Array: " + array;
     }
 
     /**
@@ -108,15 +109,19 @@ function execute() {
 
     const defaultModType: ModType = modTypes.normal;
 
-    function getModTypeFromString(string: string, returnDefault = false): ModType | null {
+    /**
+     * Returns Mod Type of Mod. Can return the {@link defaultModType} if the modType isn't set.
+     * @param string
+     */
+    function getModTypeFromString(string: string | undefined): ModType {
         if (!string)
-            return returnDefault ? defaultModType : null;
+            return defaultModType;
         // @ts-ignore
         const modType = modTypes[string.trim()];
         if (modType)
             return modType;
 
-        return returnDefault ? defaultModType : null;
+        return defaultModType;
     }
 
     /**
@@ -124,9 +129,9 @@ function execute() {
      * @param patcherSettings
      * @returns {Settings}
      */
-    function loadSettingsFromFile(patcherSettings: Settings = undefined) {
-        let loaded;
-        let modTypePair;
+    function loadSettingsFromFile(patcherSettings : Settings | undefined = undefined ) : Settings {
+        let loaded : Settings;
+        let modTypePair : Map<string, string>;
         if (patcherSettings && patcherSettings.loadOrder && patcherSettings.modTypePair && patcherSettings.modTypePair.has) {
             loaded = patcherSettings;
             modTypePair = patcherSettings.modTypePair;
@@ -135,19 +140,26 @@ function execute() {
                 loaded = fh.loadJsonFile(settingsPath);
                 if(loaded)
                     modTypePair = new Map([...loaded.modTypePair]
-                        .filter(e => e.length === 2 && e[0] && e[1] && Object.values(modTypes).some(type => type.value === e[1]))
+                        .filter(e => e.length === 2 && e[0] && e[1] && typeof e[0] === 'string' && Object.values(modTypes).some(type => type.value === e[1]))
                         .map(e => [e[0].trim(), e[1]]));
                 else
-                    return {loadOrder: [], modTypePair: new Map()};
+                    return {loadOrder: [], lastFullLoadOrder : [], modTypePair: new Map()} ;
             } catch (e) {
                 console.log(e);
-                return {loadOrder: [], modTypePair: new Map()};
+                return {loadOrder: [], lastFullLoadOrder : [], modTypePair: new Map()};
             }
         }
 
+        /**
+         * This function takes an object that is probably a string array. It outputs a array of strings or an empty array.
+         * @param array an object that is probably a string array
+         * @return {string[]} a clean string array
+         */
+        function cleanStringArray(array : any) : string []{
+            return Array.isArray(array) ? array.filter((x: any) => !!x && typeof x === 'string').map((x: string) => x.trim()) : [];
+        }
 
-        const currentMods = loaded.loadOrder.filter((x: string) => !!x).map((x: string) => x.trim());
-        return {loadOrder: currentMods, modTypePair: modTypePair};
+        return {loadOrder: cleanStringArray(loaded.loadOrder), lastFullLoadOrder : cleanStringArray(loaded.lastFullLoadOrder), modTypePair: modTypePair};
     }
 
     function mapLoadorderToModType(loadOrder: string[], settings: Settings): NpcModMd [] {
@@ -158,7 +170,7 @@ function execute() {
 
     function getModTypeOfMod(mod: string, settings: Settings): ModType {
         const storedModType = settings && settings.modTypePair && settings.modTypePair.get ? settings.modTypePair.get(mod) : undefined;
-        return getModTypeFromString(storedModType, true);
+        return getModTypeFromString(storedModType);
     }
 
     function enhanceModRecordPairs(mods: ModRecordPair[], settings: Settings) {
@@ -483,10 +495,11 @@ function execute() {
     //TODO Type scope
     function controller($scope: Scope) {
         /**
-         * Wird über {@link loadSettings()} initialisiert
+         * Is initialized by return of {@link loadSettingsFromFile()}
          * @type {Settings}
          */
-        const settings: Settings = {loadOrder: null, modTypePair: null};
+        //TODO cache settings
+        const settings: Settings = loadSettingsFromFile();
 
         /*const npcModsMd = new class {
             mods = [{modName: "Name", type: $scope.modTypes.ignore.value}];
@@ -541,6 +554,8 @@ function execute() {
                     type: existingMod ? existingMod.type : getModTypeOfMod(mod, settings).value
                 } as NpcModMd
             });
+
+            settings.lastFullLoadOrder = xelib.GetLoadedFileNames();
         }
 
         function saveSettings() {
@@ -549,17 +564,13 @@ function execute() {
                 settings.modTypePair = new Map();
 
             $scope.npcModsMd.forEach((mod: NpcModMd) => settings.modTypePair.set(mod.modName, mod.type));
-            fh.saveJsonFile(settingsPath, {loadOrder: settings.loadOrder, modTypePair: [...settings.modTypePair]});
+            fh.saveJsonFile(settingsPath, {loadOrder: settings.loadOrder, lastFullLoadOrder: settings.lastFullLoadOrder, modTypePair: [...settings.modTypePair]});
 
             (window as any).ld.settings = settings;
             $scope.settings.npcOverhaulsPatcher.settings = settings;
         }
 
         function loadSettings() {
-            //TODO cache settings
-            const newSettings = loadSettingsFromFile(/*$scope.settings.npcOverhaulsPatcher.settings*/);
-            settings.loadOrder = newSettings.loadOrder;
-            settings.modTypePair = newSettings.modTypePair;
             $scope.npcModsMd = mapLoadorderToModType(settings.loadOrder, settings);
         }
 
@@ -584,6 +595,7 @@ function execute() {
             return invisible ? "display:none" : "";
         }
 
+
         loadSettings();
 
         $scope.loadNpcMods = loadNpcMods;
@@ -599,6 +611,7 @@ function execute() {
         (window as any).ld = {
             scope: $scope,
             fh: fh,
+            // @ts-ignore
             controller: this,
             filterMods: filterMods
         };
@@ -635,6 +648,8 @@ function execute() {
                 if (color.indexOf('rgb') === 0) {
                     if (color.indexOf('rgba') === -1)
                         color += ',1'; // convert 'rgb(R,G,B)' to 'rgb(R,G,B)A' which looks awful but will pass the regxep below
+
+                    // @ts-ignore
                     return color.match(/[\d]+/g).map(function (a) {
                         return +a
                     });
@@ -642,10 +657,13 @@ function execute() {
             };
 
             const color = colorValues(getComputedStyle(document.querySelectorAll(".modal-container .modal")[0], null).getPropertyValue("background-color"));
+            // @ts-ignore
             const luminance = (0.2126 * color[0] + 0.7152 * color[1] + 0.0722 * color[2]);
 
             if (luminance < 127)
+                // @ts-ignore
                 document.getElementById("lukasNpcPatcherSettings").classList.add("dark-theme");
+
 
         } catch (e) {
             console.log(e);

@@ -3,11 +3,13 @@
 /**
  * @typedef Settings
  * @type {object}
+ * @property {string[]} lastFullLoadOrder - Array of modnames. Complete Load order saved the last time the user loaded npc mods.
  * @property {string[]} loadOrder - Array of modnames. .
  * @property {map<string, string>} modTypePair - Map with modnames as key and the ModType as Value.
  */
 
 interface Settings {
+    lastFullLoadOrder: string[];
     loadOrder: string[];
     modTypePair: Map<string, string>;
 }
