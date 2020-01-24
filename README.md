@@ -19,7 +19,7 @@ But beware, when more non look mods (e.g. Immersive Weapons, Obis) edit NPCs, it
 
 ### Install
 Install zEdit: [latest Releases](https://github.com/z-edit/zedit/releases)   
-In the Folder Created by zEdit is a folder called "modules". Clone this repository ito modules.  
+The folder where zEdit is installed is a folder called "modules". Clone this repository into modules.  
 The index.js will be located here: `YourZEditInstallFoder/modules/npcPatcher/index.js`
 
 ### Alpha
