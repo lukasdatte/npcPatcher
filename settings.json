@@ -1,48 +1,290 @@
 {
-  "loadOrder": [
+  "lastLoadOrder": [
     "Skyrim.esm",
     "Update.esm",
     "Dawnguard.esm",
     "HearthFires.esm",
     "Dragonborn.esm",
     "Unofficial Skyrim Special Edition Patch.esp",
+    "Lanterns Of Skyrim - All In One - Main.esm",
+    "ApachiiHair.esm",
+    "ApachiiHairFemales.esm",
+    "ApachiiHairMales.esm",
+    "SimpleVampFixesSSE.esl",
+    "Paradise_City_RESOURCES.esm",
     "TravellersOfSkyrim.esm",
+    "UHDAP - en0.esp",
+    "UHDAP - en1.esp",
+    "UHDAP - en2.esp",
+    "UHDAP - en3.esp",
+    "UHDAP - en4.esp",
+    "UHDAP - MusicHQ.esp",
+    "DynDOLOD.esm",
+    "SMIM-SE-Merged-All.esp",
+    "ELFX - Exteriors.esp",
+    "SkyUI_SE.esp",
+    "SkyrimIsWindy.esp",
+    "EnhancedLightsandFX.esp",
+    "SRG Enhanced Trees Activator.esp",
+    "SkyrimIsWindy - EVT patch.esp",
+    "S3DLandscapes NextGenerationForests.esp",
+    "Trees in Cities.esp",
+    "Whiterun Trees Overhaul.esp",
+    "Immersive Sounds - Compendium.esp",
+    "NorthernGrass.esp",
+    "Enhanced Landscapes.esp",
+    "Landscape Fixes For Grass Mods.esp",
     "Cutting Room Floor.esp",
+    "Book Covers Skyrim.esp",
     "MoonAndStar_MAS.esp",
+    "Hothtrooper44_ArmorCompilation.esp",
+    "Guard Dialogue Overhaul.esp",
     "Weapons Armor Clothing & Clutter Fixes.esp",
     "Cloaks.esp",
+    "EmbersHD.esp",
+    "Cloaks - Dawnguard.esp",
+    "Cloaks - USSEP Patch.esp",
+    "Hothtrooper44_Armor_Ecksstra.esp",
+    "Landscape Fixes For Grass mods - Cutting Room Floor Locations.esp",
+    "Vivid WeathersSE.esp",
+    "TrueStormsSE.esp",
+    "BetterQuestObjectives.esp",
+    "BetterQuestObjectives - BCS Patch.esp",
+    "BetterQuestObjectives-CRFPatch.esp",
+    "dD - Enhanced Blood Main.esp",
+    "DeadlySpellImpacts.esp",
+    "Qw_DeadlySpellImpacts_ISC Patch.esp",
+    "Qw_ISC_CRF Patch.esp",
+    "FNIS.esp",
+    "RaceMenu.esp",
+    "RaceMenuPlugin.esp",
+    "XPMSE.esp",
+    "SINful CBP.esp",
+    "widescreen_skyui_fix.esp",
+    "IcePenguinWorldMap.esp",
+    "beltfastenedquivers.esp",
+    "iHUD.esp",
+    "SkyHUD.esp",
+    "AHZmoreHUD.esp",
+    "HD Lods SSE.esp",
+    "Distinct Interiors.esp",
     "LostTreasures.esp",
-    "Diversity - A Character Overhaul.esp",
+    "JKs Skyrim.esp",
+    "Summermyst - Enchantments of Skyrim.esp",
+    "Skyrim Immersive Creatures Special Edition.esp",
     "OBIS SE.esp",
+    "Diversity - A Character Overhaul.esp",
+    "SAFO.esp",
+    "JK's - ELFX Patch.esp",
+    "Obsidian Mountain Fogs.esp",
+    "Weathered Road Signs.esp",
+    "SkyTEST-RealisticAnimals&Predators.esp",
     "EconomyOverhaulandSpeechcraftImprovements.esp",
+    "EconomyOverhaul CV - DistinctInteriors Patch.esp",
+    "Qw_BookCoversSkyrim_CRF Patch.esp",
     "OpulentThievesGuild.esp",
+    "ZIA_Complete Pack.esp",
+    "Qw_WACCF_ISC Patch.esp",
     "TKAA.esp",
+    "SOTGenesisMod.esp",
+    "Solitude Docks.esp",
+    "SkyrimSewers.esp",
+    "Morning Fogs SSE.esp",
+    "notice board.esp",
+    "notice board - dragonborn patch.esp",
+    "RiversideLodge.esp",
+    "Inigo.esp",
+    "MammothManor.esp",
+    "OutlawsRefuges.esp",
+    "Dawnguard Sentries SE.esp",
+    "Potions.esp",
+    "Immersive Patrols II.esp",
+    "Solstheim Landscape Overhaul.esp",
+    "OutlawsRefugesProgressionPatch.esp",
+    "Beards.esp",
+    "KS Hairdo's.esp",
+    "FranklyHDImperialArmorsAndWeapons.esp",
+    "KatriaBow.esp",
+    "LeftHandRings.esp",
+    "ArcheryV2.esp",
+    "Ars Metallica.esp",
+    "AutoHideAmmo.esp",
+    "Better Dynamic Snow.esp",
+    "S3DRocks.esp",
+    "BlendedRoads.esp",
+    "CC'sEnhancedOreVeinsSSE-HearthfirePatch.esp",
+    "CL BarrelsCratesChests.esp",
+    "Cloaks of the Nords for Guards.esp",
+    "Qw_CloaksOfSkyrim_CRF Patch.esp",
+    "Fluffy Snow - BlendedRoads Patch.esp",
+    "Genesis Surface Spawns.esp",
+    "GirlHeavyArmor.esp",
+    "GQJ_DG_vampireamuletfix.esp",
+    "honedmetal.esp",
+    "JS Armored Circlets SE.esp",
     "MannequinDesigns.esp",
+    "NoRadialBlur.esp",
+    "Notice Board MCM.esp",
     "OBIS Female Mannequins Patch.esp",
     "OBIS Loot SE.esp",
+    "Order My Items.esp",
+    "PassiveWeaponEnchantmentRecharging.esp",
     "Quest Conflict Fixes.esp",
+    "Reach Tree Replacer Summer.esp",
+    "RichMerchantsSkyrim_x5.esp",
+    "SeptimNotGoldWeightless.esp",
+    "skyforgedWeapons.esp",
+    "Skysan_Stalhrim.esp",
+    "TMBVanillaArmorandClothes.esp",
     "TravellersOfSkyrim - Dragonborn Addon.esp",
+    "TravellersOfSkyrim - Vanilla.esp",
+    "Vivid_TS_Patch_Ominous_WaterFix.esp",
+    "Vivid_TS_Patch_Ominous.esp",
+    "WetandCold.esp",
+    "Vivid_TS_Wet&Cold_Patch.esp",
+    "Wet&Cold - WaterFix - Addon.esp",
+    "FNIS_PCEA2.esp",
+    "SolstheimMerchantsInWhiterun.esp",
     "AmazingFollowerTweaks.esp",
     "Immersive Weapons.esp",
+    "Immersive Weapons_WACCF_Patch.esp",
+    "SAFO - Awesome Potions.esp",
+    "flaho_shi_eagles_nest_ENG.esp",
+    "JKs Skyrim_OutlawsRefuges_Patch.esp",
+    "Weathered Road Signs - CRF.esp",
+    "SofiaFollower.esp",
+    "MusicMerge_NR.esp",
+    "Undriel_Ebongrove.esp",
+    "InsanitySorrow Weapons Pack.esp",
+    "Eli_Routa.esp",
+    "Recorder Follower Base.esp",
+    "Recorder Follower Patch.esp",
+    "Paradise_City_Riften.esp",
     "ForgottenCity.esp",
     "IW_Diversity_Patch.esp",
-    "Bijin_AIO-SV 2018.esp",
-    "Serana.esp",
     "OBIS SE - Immersive Weapons Patch.esp",
+    "Unique Uniques.esp",
+    "BetterQuestObjectives-AFTPatch.esp",
+    "Wildcat - Combat of Skyrim.esp",
+    "UltimateCombat.esp",
+    "HothFollower.esp",
     "Cutting Room Floor TKAA Patch.esp",
     "ForgottenCity TKAA Patch.esp",
+    "MoonAndStar_MAS TKAA Patch.esp",
+    "NirShor-MusicalLore.esp",
+    "Apophysis_DPM_SE.esp",
+    "EBT - IC PATCH.esp",
+    "SkyrimSewers_OutlawsRefuges_Patch.esp",
+    "LeftHandRings-1stPersonView.esp",
+    "GenSurfSICPatch.esp",
+    "HagravenSkinShaders.esp",
+    "RUSTIC SOULGEMS - Sorted.esp",
+    "Skysan_Icicle.esp",
+    "Skytest Immersive Creatures.esp",
+    "SparklesSE.esp",
+    "Unique Dragon Aspect.esp",
     "AltStartELFXEnhancedAddLight.esp",
+    "Skysan_ELFX_SMIM_Fix.esp",
+    "WondersofWeather.esp",
+    "NightEyeENBFix.esp",
+    "Qw_ArsMetallica_SMIM_MergedAll Patch.esp",
+    "Qw_GirlHeavyArmor_USSEP Patch.esp",
+    "Qw_SofiaFollower_GDO Patch.esp",
+    "Qw_SofiaFollower_USSEP Patch.esp",
+    "Qw_WACCF_TMBVAC Patch.esp",
+    "SAFO - SkyTEST RAP.esp",
+    "Unique Uniques_WACCF_Patch.esp",
     "USSEP-Immersive Weapons Patch.esp",
+    "Wildcat-Immersive Weapons Patch.esp",
+    "ENB Light.esp",
+    "SFO_SkinFeatureOverlays.esp",
+    "EconomyOverhaul CV - WACCF Patch.esp",
     "EconomyOverhaul CV - CuttingRoomFloor Patch.esp",
+    "Qw_WACCF_CRF Patch.esp",
+    "Qw_WACCF_CloaksOfSkyrim Patch.esp",
+    "JKs Skyrim_Cutting Room Floor_Patch.esp",
+    "Landscape For Grass Mods - Moon and Star PATCH.esp",
+    "Paradise_City_Solitude.esp",
+    "Paradise_City_Markarth.esp",
+    "Paradise_City_Windhelm.esp",
+    "middenexpandedlitesse.esp",
+    "Qw_S3DLandscapes_CRF Patch.esp",
+    "OBIS SE Patrols Addon.esp",
+    "PathofChampion.esp",
+    "EconomyOverhaul CV - EvenBetterQuestObjectives Patch.esp",
     "EconomyOverhaul CV - WetAndCold Patch.esp",
+    "WetandCold - Fur Hoods Fix.esp",
+    "BotoxSE_Vanilla.esp",
+    "Recorder - JKs Skyrim Patch.esp",
+    "WinterholdBridgeFixed.esp",
+    "Apocalypse - Magic of Skyrim.esp",
+    "FireBurns.esp",
+    "Whiterun Tower - Mesh Fix.esp",
+    "ApachiiHelmetWigs.esp",
+    "TES5SE NPCs Travel.esp",
+    "Elemental_Staffs.esp",
+    "mrt_AutoUnequipHeadgears.esp",
+    "Chesko_WearableLantern.esp",
+    "Brows.esp",
+    "facegen.esp",
+    "Skysan_GlassAW.esp",
+    "Ordinator - Perks of Skyrim.esp",
+    "Ordinator_WACCF_Patch.esp",
+    "EconomyOverhaul CV - Ordinator Patch.esp",
+    "Alternate Start - Live Another Life.esp",
+    "notice board - better solstheim quests.esp",
+    "Landscape Fixes For Grass mods - Alternate start Locations.esp",
+    "BetterQuestObjectives-AlternateStartPatch.esp",
+    "Alternate Start LAL TKAA Patch.esp",
+    "PCE - Live Another Life Patch.esp",
+    "Immersive Citizens - AI Overhaul.esp",
+    "Palaces Castles Enhanced.esp",
     "CollegeOfWinterholdImmersive.esp",
+    "Relationship Dialogue Overhaul.esp",
+    "Bijin_AIO-SV 2018.esp",
     "CFTO.esp",
+    "Serana.esp",
+    "PCE - ELFX PATCH.esp",
+    "ELFX Fixes.esp",
+    "CFTO - Immersive Citizens Patch.esp",
+    "Landscape For Grass Mods JK'S Skyrim.esp",
+    "RDO - AFT v1.66 Patch.esp",
+    "CFTO-JK-Patch.esp",
+    "Convenient Horses.esp",
+    "Andromeda - Unique Standing Stones of Skyrim.esp",
+    "CWIBDSPatch.esp",
+    "CWIEnLFXSEPatch.esp",
+    "CWICRFSEPatch.esp",
+    "CWIOrdinatorPatchSSE.esp",
+    "Landscape For Grass Mods -Immersive Citizens PATCH.esp",
+    "Realistic AI Detection 2 SE - High Interior, Medium Exterior.esp",
+    "RDO - CRF + USSEP Patch.esp",
+    "KrittaKittyHorsesForSSE.esp",
+    "Qw_SofiaFollower_RDO Patch.esp",
+    "PCE - Immersive Citizens AI Overhaul Patch.esp",
+    "PCE - RDO Patch.esp",
+    "PCE - Skyrim Sewers Patch.esp",
     "PCE - USSEP+CRF Patch.esp",
-    "npcOverhaulsPatcher.esp"
+    "Enhanced Landscapes - IC Patch.esp",
+    "ELFXEnhancer.esp",
+    "Immersive Citizens - ELFXEnhancer patch.esp",
+    "PCE - ELFXEnhancer Patch.esp",
+    "RealisticWaterTwo.esp",
+    "JKs Skyrim_RWT_Patch.esp",
+    "WACCF_BashedPatchLvlListFix.esp",
+    "Sum_WACCF_Patch.esp",
+    "Bashed Patch, 0.esp",
+    "npcOverhaulsPatcher.esp",
+    "DynDOLOD.esp",
+    "WeightLess.esp"
   ],
   "modTypePair": [
     [
       "Skyrim.esm",
+      "base"
+    ],
+    [
+      "Update.esm",
       "base"
     ],
     [
@@ -63,7 +305,7 @@
     ],
     [
       "TravellersOfSkyrim.esm",
-      "ignore"
+      "nonLooks"
     ],
     [
       "Cutting Room Floor.esp",
@@ -71,155 +313,7 @@
     ],
     [
       "MoonAndStar_MAS.esp",
-      "ignore"
-    ],
-    [
-      "JKs Skyrim.esp",
-      "normal"
-    ],
-    [
-      "Summermyst - Enchantments of Skyrim.esp",
-      "normal"
-    ],
-    [
-      "Skyrim Immersive Creatures Special Edition.esp",
-      "normal"
-    ],
-    [
-      "OBIS SE.esp",
       "nonLooks"
-    ],
-    [
-      "SkyTEST-RealisticAnimals&Predators.esp",
-      "normal"
-    ],
-    [
-      "OpulentThievesGuild.esp",
-      "nonLooks"
-    ],
-    [
-      "ZIA_Complete Pack.esp",
-      "normal"
-    ],
-    [
-      "TKAA.esp",
-      "nonLooks"
-    ],
-    [
-      "Solitude Docks.esp",
-      "normal"
-    ],
-    [
-      "SkyrimSewers.esp",
-      "normal"
-    ],
-    [
-      "Inigo.esp",
-      "normal"
-    ],
-    [
-      "OutlawsRefuges.esp",
-      "normal"
-    ],
-    [
-      "Dawnguard Sentries SE.esp",
-      "normal"
-    ],
-    [
-      "Immersive Patrols II.esp",
-      "normal"
-    ],
-    [
-      "ArcheryV2.esp",
-      "normal"
-    ],
-    [
-      "honedmetal.esp",
-      "normal"
-    ],
-    [
-      "JS Armored Circlets SE.esp",
-      "normal"
-    ],
-    [
-      "OBIS Loot SE.esp",
-      "nonLooks"
-    ],
-    [
-      "TravellersOfSkyrim - Vanilla.esp",
-      "normal"
-    ],
-    [
-      "SolstheimMerchantsInWhiterun.esp",
-      "normal"
-    ],
-    [
-      "flaho_shi_eagles_nest_ENG.esp",
-      "normal"
-    ],
-    [
-      "SofiaFollower.esp",
-      "normal"
-    ],
-    [
-      "InsanitySorrow Weapons Pack.esp",
-      "normal"
-    ],
-    [
-      "Recorder Follower Base.esp",
-      "normal"
-    ],
-    [
-      "ForgottenCity.esp",
-      "ignore"
-    ],
-    [
-      "HothFollower.esp",
-      "normal"
-    ],
-    [
-      "middenexpandedlitesse.esp",
-      "normal"
-    ],
-    [
-      "PathofChampion.esp",
-      "normal"
-    ],
-    [
-      "Apocalypse - Magic of Skyrim.esp",
-      "normal"
-    ],
-    [
-      "FireBurns.esp",
-      "normal"
-    ],
-    [
-      "Ordinator - Perks of Skyrim.esp",
-      "normal"
-    ],
-    [
-      "Alternate Start - Live Another Life.esp",
-      "normal"
-    ],
-    [
-      "Palaces Castles Enhanced.esp",
-      "normal"
-    ],
-    [
-      "CollegeOfWinterholdImmersive.esp",
-      "nonLooks"
-    ],
-    [
-      "CFTO.esp",
-      "nonLooks"
-    ],
-    [
-      "Relationship Dialogue Overhaul.esp",
-      "normal"
-    ],
-    [
-      "Update.esm",
-      "base"
     ],
     [
       "Weapons Armor Clothing & Clutter Fixes.esp",
@@ -234,19 +328,31 @@
       "nonLooks"
     ],
     [
-      "Diversity - A Character Overhaul.esp",
-      "normal"
+      "OBIS SE.esp",
+      "nonLooks"
     ],
     [
       "EconomyOverhaulandSpeechcraftImprovements.esp",
       "nonLooks"
     ],
     [
+      "OpulentThievesGuild.esp",
+      "nonLooks"
+    ],
+    [
+      "TKAA.esp",
+      "nonLooks"
+    ],
+    [
       "MannequinDesigns.esp",
-      "ignore"
+      "nonLooks"
     ],
     [
       "OBIS Female Mannequins Patch.esp",
+      "nonLooks"
+    ],
+    [
+      "OBIS Loot SE.esp",
       "nonLooks"
     ],
     [
@@ -255,7 +361,7 @@
     ],
     [
       "TravellersOfSkyrim - Dragonborn Addon.esp",
-      "ignore"
+      "nonLooks"
     ],
     [
       "AmazingFollowerTweaks.esp",
@@ -266,15 +372,11 @@
       "nonLooks"
     ],
     [
-      "IW_Diversity_Patch.esp",
+      "ForgottenCity.esp",
       "nonLooks"
     ],
     [
-      "Bijin_AIO-SV 2018.esp",
-      "normal"
-    ],
-    [
-      "Serana.esp",
+      "IW_Diversity_Patch.esp",
       "nonLooks"
     ],
     [
@@ -287,11 +389,11 @@
     ],
     [
       "ForgottenCity TKAA Patch.esp",
-      "ignore"
+      "nonLooks"
     ],
     [
       "AltStartELFXEnhancedAddLight.esp",
-      "ignore"
+      "nonLooks"
     ],
     [
       "USSEP-Immersive Weapons Patch.esp",
@@ -306,12 +408,37 @@
       "nonLooks"
     ],
     [
-      "PCE - USSEP+CRF Patch.esp",
+      "CollegeOfWinterholdImmersive.esp",
+      "nonLooks"
+    ],
+    [
+      "CFTO.esp",
+      "nonLooks"
+    ],
+    [
+      "Serana.esp",
       "nonLooks"
     ],
     [
       "npcOverhaulsPatcher.esp",
-      "nonLooks"
+      "ignore"
+    ],
+    [
+      "Diversity - A Character Overhaul.esp",
+      "looks"
+    ],
+    [
+      "Bijin_AIO-SV 2018.esp",
+      "looks"
+    ],
+    [
+      "PCE - USSEP+CRF Patch.esp",
+      "looks"
+    ],
+    [
+      "Bashed Patch, 0.esp",
+      "ignore"
     ]
-  ]
+  ],
+  "hideDescription": true
 }

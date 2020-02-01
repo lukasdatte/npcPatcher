@@ -3,6 +3,7 @@ node_modules/
 asar/
 compiled/
 dist/
+partials/
 unifiedPatchingFramework/
 *.zip
 *.rar

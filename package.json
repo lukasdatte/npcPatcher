@@ -20,9 +20,11 @@
     "gulp-remove-dev": "git+https://github.com/lukasdatte/gulp-remove-dev.git",
     "gulp-rename": "^1.4.0",
     "gulp-replace": "^1.0.0",
+    "gulp-sass": "^4.0.2",
     "gulp-sourcemaps": "^2.6.5",
     "gulp-typescript": "^6.0.0-alpha.1",
     "gulp-zip": "^4.2.0",
+    "node-sass": "^4.13.1",
     "typescript": "^3.7.5"
   },
   "dependencies": {}

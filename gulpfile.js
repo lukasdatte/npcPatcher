@@ -7,7 +7,8 @@ const fs = require('fs'),
       ts = require('gulp-typescript'),
       sourcemaps = require('gulp-sourcemaps'),
       replace = require('gulp-replace'),
-      remove = require('gulp-remove-dev');
+      remove = require('gulp-remove-dev'),
+      sass = require('gulp-sass');
 
 gulp.task('clean', function() {
     return gulp.src('dist/*', {read: false})
@@ -20,22 +21,31 @@ gulp.task('ts', function () {
     return gulp.src('src/*.ts')
         .pipe(sourcemaps.init())
         //.pipe(ts(tsconfig.compilerOptions))
-        .pipe(ts(tsconfig.compilerOptions
-            /*{
-                    "noImplicitAny": false,
-                    "target": "es5",
-                    "downlevelIteration": true
-                }*/))
-        //.pipe(sourcemaps.write())
-        .pipe(sourcemaps.write('.', { includeContent: false, sourceRoot: '../src' }))
+        .pipe(ts(tsconfig.compilerOptions))
+        .pipe(replace(/^\s*"use strict";/gm, ""))
+        //.pipe(sourcemaps.write('.', { includeContent: false, sourceRoot: '../src' }))
+        .pipe(sourcemaps.write({ includeContent: true, sourceRoot: 'modules/npcOverhaulsPatcher/src/' }))
         .pipe(gulp.dest('./compiled'));
 });
 
-gulp.task('watch', gulp.series('ts', function() {
+gulp.task('html', gulp.series(function () {
+        return gulp.src('src/*.scss')
+            .pipe(sourcemaps.init())
+            .pipe(sass().on('error', sass.logError))
+            .pipe(sourcemaps.write())
+            .pipe(gulp.dest('./compiled'));
+    }, function () {
+        return gulp.src('src/*.html')
+            .pipe(include({includePaths: __dirname + "\\compiled"}))
+            .pipe(gulp.dest('./partials'));
+    }));
+
+gulp.task('watch', gulp.series(gulp.parallel('html', 'ts'), function() {
     gulp.watch('src/*.ts', gulp.series('ts'));
+    gulp.watch(['src/*.scss', 'src/*.html'], gulp.series('html'));
 }));
 
-gulp.task('build', gulp.series(['clean', 'ts'], function() {
+gulp.task('build', gulp.series(['clean', 'ts', 'html'], function() {
     /*const replaceDev = /(?:^\s*)?\/\/<remove>.*?\/\/<\/remove>(?:\s*$)?/gms;
     const replaceDevEnd = /(?:^\s*)?\/\/<remove end>.*$/gms;
     const replaceDevBeginning = /^.*\/\/<remove beginning>(?:\s*$)/gms;*/

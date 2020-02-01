@@ -1,0 +1,95 @@
+<div id="lukasNpcPatcherSettings" class="">
+    
+    <style>
+        /*=include settings.css */
+    </style>
+    
+    <section class="npc-top">
+    
+    <h2>Lukas' NPC Patcher</h2>
+        
+        <div class="npc-description" ng-show="!hideDescription">
+            This patcher is meant to fix the Black face problem which is produced by overriding look Mods. <br/>
+            While it does that, it will search the whole npc for any changes to its' look. It will take the latest change that isn't identical to any base mod and merges it to any changes the lastest look mod did. That means it will make a NPC Overlaul (like i.e. Diversity or Bijinn) mod compatible with i.e. Immersive Weapons. But beware that when more non look mods edit one NPC, it will lake the data from the lastest.<br/>
+            <h3>Configure</h3>
+            But first you need to do some Configuring. If you press the Button down below, this tool will search all Mods that are editing humanoid NPCs.
+            <ul>
+                <li>
+                    <h4>Base</h4>
+                    Base Mods are mods or esp/ems files like Skyrim.esm or (UUESP) Unofficial Skyrim SE Patch. Those mods provide the base of the game. If you mark Skyrim a base mod, the patcher will know how it's NPCs look. Any mods that will make NPCs look the same, will not be flagged as look mods.
+                </li>
+                <li>
+                    <h4>Look Mods</h4>
+                    Looks mods are mods that change an NPCs look compared to base mods. You can't configure look Mods sice that is don automatically on a NPC by NPC basis.<br/>
+                </li>
+                <li>
+                    <h4>Copy Non Looks</h4>
+                    Non look Mods are Mods, that edit an NPC but don't change it's look. If you flag a Mod as "Copy Non look" the Patcher knows where to copy any changes made by the latest look mod. It will take the latest change by a look mod and merges it to any changes the lastest non look mod did.
+                </li>
+                <li>
+                    <h4>Ignore</h4>
+                    The Patcher will simply ignore this Mod. You should ignore Bashed Patches and Patches Created by this Patcher.
+                </li>
+                <li>
+                    <h4>Force No Patch</h4>
+                    If a NPC is edited by a Mod you flagged "Force No Patch" the Patcher will patch not patch this NPC.
+                </li>
+            </ul>
+        </div>
+        
+        <button class="npc-button npc-hide-description npc-arrows-container" ng-click="hideDescription = !hideDescription">
+            <i class="npc-arrow {{hideDescription ? 'npc-arrow-down' : 'npc-arrow-up'}}"></i>
+            <div>{{hideDescription ? "Show" : "Hide"}} description </div>
+            <i class="npc-arrow {{hideDescription ? 'npc-arrow-down' : 'npc-arrow-up'}}"></i>
+        </button>
+    
+        <button class="npc-button npc-reversed-theme npc-button-load" ng-click="loadNpcMods()">Load NPC modifying Mods</button>
+        <button class="npc-button npc-reversed-theme npc-button-load" ng-click="loadLookMods()">Load Look Mods</button>
+    </section>
+    
+    <section class="npc-mod-list">
+        <h2>Mods</h2>
+        <div class="npc-list-warning npc-arrows-container" ng-show="npcModsMd.length === 0">
+            <i class="npc-arrow npc-arrow-up"></i>
+            <div>
+                Please press <b>"Load NPC modifying Mods"</b> above. zEdit will be unresponsive for a minute.<br/>
+                You should do this when you installed any NPC related mod, that was never loaded via this button.<br/>
+                This tool saves your settings, even the settings of removed mods &#x1F61C
+            </div>
+            <i class="npc-arrow npc-arrow-up"></i>
+        </div>
+    
+        <div class="npc-list-warning npc-arrows-container" ng-show="unknownModsDetected">
+            <i class="npc-arrow npc-arrow-up"></i>
+            <div>
+                You installed a new mod since you pressed <b>"Load NPC modifying Mods"</b> above. <br/>
+                Please press it again. zEdit will be unresponsive for a minute.<br/>
+                You should do this when you installed any NPC related mod, that was never loaded via this button. This tool should detect unknown Mods.<br/>
+                Settings are saved, even the settings of removed mods &#x1F61C
+            </div>
+            <i class="npc-arrow npc-arrow-up"></i>
+        </div>
+        
+        <div class="npc-mod-filter-container npc-arrows-container npc-input-field" ng-show="npcModsMd.length > 0">
+            <input class="npc-mod-filter-input" type="text" name="npc-mod-filter" id="npc-mod-filter" ng-model="filter" placeholder="Filter" ng-change="filterMods(filter)"/>
+            <label class="npc-mod-filter-label" for="npc-mod-filter">Filter (RegEx)</label>
+        </div>
+        
+        <div>
+            <div class="npc-mod" ng-repeat="mod in npcModsMd" ng-show="!mod.invisible">
+                <div class="md-list-item-text">
+                    <span class="mod-name">{{mod.modName}}</span>
+                    <fieldset>
+                        <div class="mod-type-container">
+                            <input id="{{mod.modName + '-' + type.value}}" class="mod-type-input" ng-repeat-start="type in modTypes" ng-model="mod.type" type="radio" ng-value="type.value"/>
+                            <label for="{{mod.modName + '-' + type.value}}" class="mod-type-label npc-button" ng-repeat-end><span>{{ type.label }}</span></label>
+                        </div>
+                    </fieldset>
+                </div>
+            </div>
+        </div>
+    
+        
+    
+    </section>
+</div>
